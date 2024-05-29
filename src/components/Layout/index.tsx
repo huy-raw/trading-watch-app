@@ -9,24 +9,22 @@ interface LayoutProps {
 const StyledLayout = styled(`div`)`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  margin: 0 auto;
+  margin-top: 60px;
+  width: 80%;
   height: 100%;
   background-color: #f5f5f5;
 `
 
 const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   return (
-    <StyledLayout>
+    <div>
       <Navbar />
-      <Container
-        sx={{
-          marginTop: '60px'
-        }}
-      >
-        {children}
-      </Container>
+      <StyledLayout>
+        <Container>{children}</Container>
+      </StyledLayout>
       <Footer />
-    </StyledLayout>
+    </div>
   )
 }
 export default Layout

@@ -20,7 +20,7 @@ const ItemDetailUser = () => {
           <Typography variant="body2" color="textSecondary">
             <Box component="span" sx={{ color: 'gold' }}>
               ★★★★☆
-            </Box>{' '}
+            </Box>
             4.7 (
             <Link href="#" underline="hover">
               10 đánh giá

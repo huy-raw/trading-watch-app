@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   InputBase,
@@ -13,7 +14,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswerOutlined'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCartOutlined'
 import ArticleIcon from '@mui/icons-material/ArticleOutlined'
-import AccountCircleIcon from '@mui/icons-material/AccountCircleOutlined'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
 
 const pages = [
@@ -124,13 +124,8 @@ const Navbar = () => {
         </Box>
         <Box marginRight={10}>
           <Button color="inherit">
-            <AccountCircleIcon
-              fontSize="large"
-              sx={{
-                marginRight: '10px'
-              }}
-            />
-            <Typography>Thang Ngu</Typography>
+            <Avatar>TN</Avatar>
+            <Typography marginLeft={2}>Thang Ngu</Typography>
             <ExpandMoreOutlinedIcon />
           </Button>
         </Box>
