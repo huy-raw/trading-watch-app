@@ -3,10 +3,23 @@ import { Container, Grid } from '@mui/material'
 import ItemDetail from './components/ItemDetail'
 import ItemDetailUser from './components/ItemDetailUser'
 
-const ItemDetailPage: React.FC = () => {
+interface ItemDetailPageProps {
+  id?: string
+}
+
+const ItemDetailPage: React.FC<ItemDetailPageProps> = ({
+  id
+}: ItemDetailPageProps) => {
+  console.log('id', id)
+
   return (
     <Layout>
-      <Container>
+      <Container
+        component={'div'}
+        sx={{
+          paddingY: '50px'
+        }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             <ItemDetail />

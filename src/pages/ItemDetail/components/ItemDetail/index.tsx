@@ -7,7 +7,6 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  Link,
   Box
 } from '@mui/material'
 
@@ -66,67 +65,113 @@ const ItemDetail = () => {
               marginLeft: '20px'
             }}
           >
-            <Typography variant="h5">
-              <Link href="#" underline="hover">
-                Rolex Day Date 36 128235 Ombre Chocolate
-              </Link>
+            <Typography variant="h5" color={'#484848'} fontWeight={'bold'}>
+              Rolex Day Date 36 128235 Ombre Chocolate
             </Typography>
-            <Typography variant="h6" color="red">
+            <Typography variant="h6" color={'#CA2C2C'} fontWeight={'bold'}>
               1,080,869₫
             </Typography>
           </Box>
           <List>
             <ListItem>
-              <Typography variant="h5" mt={2} fontWeight={600}>
+              <Typography variant="h5" mt={2} fontWeight={700}>
                 Thông tin
               </Typography>
             </ListItem>
             <ListItem>
-              <ListItemText primary="Thương hiệu" secondary="Rolex" />
+              <ListItemText
+                primary="Thương hiệu"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="Rolex"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Mẫu mã" secondary="Date 36" />
+              <ListItemText
+                primary="Mẫu mã"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="Date 36"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Số tham chiếu" secondary="128238" />
+              <ListItemText
+                primary="Số tham chiếu"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="128238"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Dung lượng pin" secondary="70 tiếng" />
+              <ListItemText
+                primary="Dung lượng pin"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="70 tiếng"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Chất liệu vỏ" secondary="Vàng" />
+              <ListItemText
+                primary="Chất liệu vỏ"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="Vàng"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Chất liệu dây đeo" secondary="Vàng" />
+              <ListItemText
+                primary="Chất liệu dây đeo"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="Vàng"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Năm sản xuất" secondary="2023" />
+              <ListItemText
+                primary="Năm sản xuất"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="2023"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Trạng thái" secondary="Mới" />
+              <ListItemText
+                primary="Trạng thái"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="Mới"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Tình trạng" secondary="Hộp, giấy tờ gốc" />
+              <ListItemText
+                primary="Tình trạng"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="Hộp, giấy tờ gốc"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Giới tính" secondary="Đồng hồ nam" />
+              <ListItemText
+                primary="Giới tính"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="Đồng hồ nam"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Nơi sản xuất" secondary="Nước Anh" />
+              <ListItemText
+                primary="Nơi sản xuất"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="Nước Anh"
+              />
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemText primary="Kích thước" secondary="41x40 mm" />
+              <ListItemText
+                primary="Kích thước"
+                primaryTypographyProps={{ fontWeight: 600 }}
+                secondary="41x40 mm"
+              />
             </ListItem>
             <Divider />
           </List>

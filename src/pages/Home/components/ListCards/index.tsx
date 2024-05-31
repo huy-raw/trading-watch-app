@@ -33,7 +33,12 @@ const ListCards: React.FC = () => {
         >
           {Array.from({ length: 12 }).map((_, index) => (
             <Grid item key={index} xs={2} sm={4} md={3}>
-              <CardItem />
+              <CardItem
+                name="BULOVA MARINE STAR WATCH 44MM"
+                id="123"
+                image={''}
+                price={0}
+              />
             </Grid>
           ))}
         </Grid>

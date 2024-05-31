@@ -1,10 +1,13 @@
 import { Box, Typography, Grid, Button, Avatar, Link } from '@mui/material'
 import PhoneIcon from '@mui/icons-material/Phone'
 import ChatIcon from '@mui/icons-material/Chat'
+import { useLoaderData } from 'react-router-dom'
 
 const ItemDetailUser = () => {
+  const data = useLoaderData()
+  const { id } = data as { id: string }
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box sx={{ padding: 2 }} component={'div'} id={`${id}`}>
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <Avatar
@@ -38,7 +41,13 @@ const ItemDetailUser = () => {
             Chat với người bán
           </Button>
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            textAlign: 'left'
+          }}
+        >
           <Typography variant="body2" color="textSecondary">
             Được thẩm định bởi:
           </Typography>
