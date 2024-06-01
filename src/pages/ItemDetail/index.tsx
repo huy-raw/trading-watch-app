@@ -17,7 +17,9 @@ const ItemDetailPage: React.FC<ItemDetailPageProps> = ({
       <Container
         component={'div'}
         sx={{
-          paddingY: '50px'
+          backgroundColor: '#fff',
+          padding: '40px',
+          marginTop: '60px'
         }}
       >
         <Grid container spacing={2}>

@@ -1,12 +1,11 @@
 import BannerImage from '@/assets/banner.png'
-import { Container, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import StyledImage from '../../../../components/StyledImage'
 
 const Banner = () => {
   return (
-    <Container
+    <Box
       sx={{
-        margin: '30px auto',
         borderBottom: '2px solid #8C8B8B',
         paddingBottom: '77px'
       }}
@@ -16,7 +15,7 @@ const Banner = () => {
         Sàn Giao Dịch Mua Bán Thẩm Định Đồng Hồ <br />
         Mang Đến Các Dịch Vụ Chất Lượng
       </Typography>
-    </Container>
+    </Box>
   )
 }
 

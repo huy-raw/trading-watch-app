@@ -18,7 +18,16 @@ const Footer = () => {
       <Box>
         <Grid container spacing={2}>
           <Grid item xs={12} md={3}>
-            <Box width={300} height={60}>
+            <Box
+              width={400}
+              height={100}
+              sx={{
+                flex: 1,
+                justifyContent: 'center',
+                margin: 'auto',
+                marginTop: 4
+              }}
+            >
               <StyledImage src={Logo} alt="App Logo" />
             </Box>
           </Grid>
