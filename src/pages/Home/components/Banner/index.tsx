@@ -1,6 +1,6 @@
 import BannerImage from '@/assets/banner.png'
+import StyledImage from '@/components/StyledImage'
 import { Box, Typography } from '@mui/material'
-import StyledImage from '../../../../components/StyledImage'
 
 const Banner = () => {
   return (

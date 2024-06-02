@@ -15,11 +15,12 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswerOutlined'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCartOutlined'
 import ArticleIcon from '@mui/icons-material/ArticleOutlined'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
+import { useState } from 'react'
 
 const pages = [
   { title: 'Thương Hiệu', href: '/' },
   { title: 'Đồng Hồ', href: '/' },
-  { title: 'Thẩm định', href: '/' }
+  { title: 'Thẩm định', href: '/expertise/online-form' }
 ]
 
 const Search = styled('div')(({ theme }) => ({
@@ -29,7 +30,7 @@ const Search = styled('div')(({ theme }) => ({
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25)
   },
-  marginRight: theme.spacing(2),
+  marginRight: theme.spacing(6),
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
@@ -57,22 +58,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch'
+      width: '30ch'
     }
+  },
+  '& .MuiInputBase-input::placeholder': {
+    color: 'white'
+  },
+  '& .MuiInputBase-input:focus': {
+    borderColor: 'white'
   }
 }))
 
 const StyledLogo = styled('img')({
-  height: '40px'
+  height: '46px'
 })
 
 const Navbar = () => {
+  const [user, setUser] = useState(null)
+
   return (
     <AppBar
       position="fixed"
       sx={{
         backgroundColor: '#4E4E4E',
-        maxHeight: '60px',
+        maxHeight: '80px',
         width: '100%'
       }}
     >
@@ -83,7 +92,7 @@ const Navbar = () => {
           justifyContent: 'space-between'
         }}
       >
-        <Box marginLeft={10}>
+        <Box marginLeft={8}>
           <StyledLogo src={Logo} alt="logo" />
         </Box>
         <Box>
@@ -91,7 +100,10 @@ const Navbar = () => {
             <Button
               key={page.title}
               sx={{
-                textTransform: 'none'
+                textTransform: 'none',
+                marginLeft: 2,
+                fontSize: '16px',
+                fontWeight: '600'
               }}
               color="inherit"
               href={page.href}
@@ -123,11 +135,32 @@ const Navbar = () => {
           </Button>
         </Box>
         <Box marginRight={10}>
-          <Button color="inherit">
-            <Avatar>TN</Avatar>
-            <Typography marginLeft={2}>Thang Ngu</Typography>
-            <ExpandMoreOutlinedIcon />
-          </Button>
+          {user ? (
+            <Button color="inherit">
+              <Avatar>TN</Avatar>
+              <Typography
+                marginLeft={2}
+                sx={{
+                  textTransform: 'none',
+                  fontSize: '16px'
+                }}
+              >
+                Thang Ngu
+              </Typography>
+              <ExpandMoreOutlinedIcon />
+            </Button>
+          ) : (
+            <Button color="primary" variant="contained" href={'/authenticate'}>
+              <Typography
+                sx={{
+                  textTransform: 'none',
+                  fontSize: '16px'
+                }}
+              >
+                Đăng nhập
+              </Typography>
+            </Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

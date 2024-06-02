@@ -5,7 +5,6 @@ import {
   Button,
   Grid,
   MenuItem,
-  Select,
   TextField,
   Typography
 } from '@mui/material'
@@ -16,6 +15,7 @@ interface ExpertisePageProps {}
 const names = ['10', '20', '30']
 
 const ExpertisePage = (props: ExpertisePageProps) => {
+  console.log(props)
   return (
     <Layout>
       <Box
@@ -46,7 +46,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                 fontWeight: '600'
               }}
             >
-              YOUR DETAILS
+              Thông tin của bạn
             </Typography>
             <Box
               sx={{
@@ -56,32 +56,32 @@ const ExpertisePage = (props: ExpertisePageProps) => {
             >
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <TextField placeholder="Name" variant="outlined" fullWidth />
-                </Grid>
-                <Grid item xs={12} md={4}>
                   <TextField
-                    placeholder="Email Address"
+                    placeholder="Họ và tên"
                     variant="outlined"
                     fullWidth
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
+                  <TextField placeholder="Email" variant="outlined" fullWidth />
+                </Grid>
+                <Grid item xs={12} md={4}>
                   <TextField
-                    placeholder="Phone Number"
+                    placeholder="Số điện thoại"
                     variant="outlined"
                     fullWidth
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    placeholder="Brand Name"
+                    placeholder="THương hiệu đồng hồ"
                     variant="outlined"
                     fullWidth
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    placeholder="Model Number / Name"
+                    placeholder="Số tham chiếu"
                     variant="outlined"
                     fullWidth
                   />
@@ -103,7 +103,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                   paddingRight: '50px'
                 }}
               >
-                ABOUT YOUR WATCH
+                Thông tin đồng hồ
               </Typography>
               <Typography
                 component={'div'}
@@ -111,7 +111,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                 fontSize={'12px'}
                 textAlign={'left'}
               >
-                **Click on your preferences below
+                Nhấp vào tùy chọn bên dưới
               </Typography>
               <Box component={'div'} marginTop={'10px'}>
                 <Grid container spacing={6} gap={1}>
@@ -122,7 +122,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       marginTop={1}
                       marginLeft={4}
                     >
-                      Do you have the original box and papers?
+                      Đồng hồ còn nguyên hộp không?
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={5}>
@@ -130,27 +130,27 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       <Grid item xs={3}>
                         <Button
                           sx={{
-                            paddingX: '40px',
+                            paddingX: '35px',
                             color: '#434343',
                             borderColor: '#434343'
                           }}
                           size="large"
                           variant="outlined"
                         >
-                          Yes
+                          Có
                         </Button>
                       </Grid>
                       <Grid item xs={3}>
                         <Button
                           sx={{
-                            paddingX: '40px',
+                            paddingX: '20px',
                             color: '#434343',
                             borderColor: '#434343'
                           }}
                           size="large"
                           variant="outlined"
                         >
-                          No
+                          Không
                         </Button>
                       </Grid>
                       <Grid item xs={2} alignContent={'flex-end'}>
@@ -167,8 +167,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                 <Grid container spacing={6} gap={1} marginTop={1}>
                   <Grid item xs={12} md={6}>
                     <Typography textAlign={'left'} fontSize={18} marginLeft={4}>
-                      Do you have the original certificate of authenticity/ or
-                      warranty card?
+                      Bạn có giấy tờ gốc của đồng hồ hoặc thẻ bảo hành không?
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={5}>
@@ -176,27 +175,27 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       <Grid item xs={3}>
                         <Button
                           sx={{
-                            paddingX: '40px',
+                            paddingX: '35px',
                             color: '#434343',
                             borderColor: '#434343'
                           }}
                           size="large"
                           variant="outlined"
                         >
-                          Yes
+                          Có
                         </Button>
                       </Grid>
                       <Grid item xs={3}>
                         <Button
                           sx={{
-                            paddingX: '40px',
+                            paddingX: '20px',
                             color: '#434343',
                             borderColor: '#434343'
                           }}
                           size="large"
                           variant="outlined"
                         >
-                          No
+                          Không
                         </Button>
                       </Grid>
                       <Grid item xs={2} alignContent={'flex-end'}>
@@ -218,7 +217,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       marginTop={1}
                       marginLeft={4}
                     >
-                      Do you have proof of purchase?
+                      Bạn có hóa đơn mua hàng không?
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={5}>
@@ -226,27 +225,27 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       <Grid item xs={3}>
                         <Button
                           sx={{
-                            paddingX: '40px',
+                            paddingX: '35px',
                             color: '#434343',
                             borderColor: '#434343'
                           }}
                           size="large"
                           variant="outlined"
                         >
-                          Yes
+                          Có
                         </Button>
                       </Grid>
                       <Grid item xs={3}>
                         <Button
                           sx={{
-                            paddingX: '40px',
+                            paddingX: '20px',
                             color: '#434343',
                             borderColor: '#434343'
                           }}
                           size="large"
                           variant="outlined"
                         >
-                          No
+                          Không
                         </Button>
                       </Grid>
                       <Grid item xs={2} alignContent={'flex-end'}>
@@ -268,7 +267,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       marginTop={1}
                       marginLeft={4}
                     >
-                      Is your watch unworn with sitcker intact?
+                      Đồng hồ của bạn còn nhãn dán không?
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={5}>
@@ -276,27 +275,27 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       <Grid item xs={3}>
                         <Button
                           sx={{
-                            paddingX: '40px',
+                            paddingX: '35px',
                             color: '#434343',
                             borderColor: '#434343'
                           }}
                           size="large"
                           variant="outlined"
                         >
-                          Yes
+                          Có
                         </Button>
                       </Grid>
                       <Grid item xs={3}>
                         <Button
                           sx={{
-                            paddingX: '40px',
+                            paddingX: '20px',
                             color: '#434343',
                             borderColor: '#434343'
                           }}
                           size="large"
                           variant="outlined"
                         >
-                          No
+                          Không
                         </Button>
                       </Grid>
                       <Grid item xs={2} alignContent={'flex-end'}>
@@ -318,17 +317,26 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       marginTop={1}
                       marginLeft={4}
                     >
-                      How old is your watch?
+                      Đồng hồ của bạn bao nhiêu tuổi
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={4}>
-                    <Select label={'Value'} fullWidth>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="gender"
+                      label="Tuổi của đồng hồ"
+                      name="gender"
+                      select
+                    >
                       {names.map((name) => (
                         <MenuItem key={name} value={name}>
                           {name}
                         </MenuItem>
                       ))}
-                    </Select>
+                    </TextField>
                   </Grid>
                 </Grid>
                 <Grid container spacing={4} marginTop={1}>
@@ -339,7 +347,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       marginTop={1}
                       marginLeft={4}
                     >
-                      What is your desired selling price?
+                      Giá bán mong muốn của bạn là bao nhiêu?
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -364,7 +372,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                       marginTop={1}
                       marginLeft={4}
                     >
-                      Additional information (optional)
+                      Thông tin thêm (nếu có)
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -394,7 +402,7 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                     fontWeight: '600'
                   }}
                 >
-                  ABOUT YOUR WATCH
+                  Hình ảnh đồng hồ
                 </Typography>
                 <Typography
                   component={'div'}
@@ -402,17 +410,22 @@ const ExpertisePage = (props: ExpertisePageProps) => {
                   fontSize={'18px'}
                   textAlign={'left'}
                   marginLeft={'20px'}
+                  fontWeight={'600'}
                 >
-                  Select up to 10 images of your watch to upload. Each file must
-                  be less than 5MB in size
+                  Chọn ít nhất 5 tấm ảnh chụp các góc của đồng hồ. Kich thước
+                  ảnh không quá 5MB
                 </Typography>
               </Box>
               <Box
+                component={'div'}
+                marginTop={2}
                 sx={{
-                  marginTop: '20px',
-                  paddingX: '50px'
+                  display: 'flex',
+                  justifyContent: 'center'
                 }}
-              ></Box>
+              >
+                <ImageUpload />
+              </Box>
             </Box>
           </Grid>
         </Grid>
@@ -423,17 +436,14 @@ const ExpertisePage = (props: ExpertisePageProps) => {
               color: '#fff',
               backgroundColor: '#434343',
               borderColor: '#434343',
-              marginTop: '20px',
+              marginTop: '30px',
               marginLeft: '40px'
             }}
             size="large"
             variant="outlined"
           >
-            Submit Request
+            Gởi yêu cầu
           </Button>
-          <Box component={'div'} marginTop={'20px'}>
-            <ImageUpload />
-          </Box>
         </Grid>
       </Box>
     </Layout>

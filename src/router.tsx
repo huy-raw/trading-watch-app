@@ -1,8 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom'
 import HomePage from './pages/Home'
 import ItemDetailPage from './pages/ItemDetail'
-import UserPage from './pages/User'
+import UserPage from './pages/Authenticate'
 import ExpertisePage from './pages/Expertise'
+import CreatePostPage from './pages/CreatePost'
+import AuthenticatePage from './pages/Authenticate'
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,19 @@ const router = createBrowserRouter([
         element: <ExpertisePage />
       }
     ]
+  },
+  {
+    path: 'watch',
+    children: [
+      {
+        path: 'create-post',
+        element: <CreatePostPage />
+      }
+    ]
+  },
+  {
+    path: 'authenticate',
+    element: <AuthenticatePage />
   }
 ])
 export default router

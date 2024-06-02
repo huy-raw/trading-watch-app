@@ -3,7 +3,7 @@ import { Box, Button, Typography, IconButton, Avatar } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
 const ImageUpload = () => {
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0])
@@ -17,7 +17,7 @@ const ImageUpload = () => {
     <Box
       sx={{ width: 400, border: '1px solid #ddd', padding: 2, borderRadius: 2 }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <input
           accept="image/*"
           id="upload-image"
@@ -31,7 +31,7 @@ const ImageUpload = () => {
           </Button>
         </label>
         <Button variant="contained" component="span" sx={{ ml: 2 }}>
-          SELECT IMAGE
+          Chọn ảnh
         </Button>
       </Box>
       {selectedFile && (

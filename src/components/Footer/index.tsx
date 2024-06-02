@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from '@mui/material'
 import Logo from '@/assets/app-logo.png'
-import StyledImage from '../StyledImage'
 import { FacebookSharp } from '@mui/icons-material'
+import StyledImage from '../StyledImage'
 
 const Footer = () => {
   return (
@@ -28,7 +28,11 @@ const Footer = () => {
                 marginTop: 4
               }}
             >
-              <StyledImage src={Logo} alt="App Logo" />
+              <StyledImage
+                src={Logo}
+                alt="App Logo"
+                style={{ width: '300px', height: '100%', objectFit: 'fill' }}
+              />
             </Box>
           </Grid>
           <Grid item xs={6} md={2}>
