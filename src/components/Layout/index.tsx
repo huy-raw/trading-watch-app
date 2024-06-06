@@ -30,17 +30,13 @@ const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
 
   return (
     <AuthProvider>
-      {user ? (
-        <>
-          {user?.role === 'appraiser' ? <AppraiserNavbar /> : <Navbar />}
-          <StyledLayout>
-            <Container>{children}</Container>
-          </StyledLayout>
-          <Footer />
-        </>
-      ) : (
-        <>{children}</>
-      )}
+      <>
+        {user?.role === 'appraiser' ? <AppraiserNavbar /> : <Navbar />}
+        <StyledLayout>
+          <Container>{children}</Container>
+        </StyledLayout>
+        <Footer />
+      </>
     </AuthProvider>
   )
 }
