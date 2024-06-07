@@ -23,9 +23,8 @@ const router = createBrowserRouter([
         element: <ItemDetailPage />,
         loader: async ({ params }) => {
           const { id } = params
-          // Fetch item details using the id
-          // For example: const itemData = await fetchItemDetails(id);
-          return { id } // Return the data that the component needs
+
+          return { id }
         }
       },
       {
@@ -42,9 +41,8 @@ const router = createBrowserRouter([
         element: <div>User Profile</div>,
         loader: async ({ params }) => {
           const { id } = params
-          // Fetch user details using the id
-          // For example: const userData = await fetchUserDetails(id);
-          return { id } // Return the data that the component needs
+
+          return { id }
         }
       }
     ]

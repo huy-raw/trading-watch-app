@@ -1,8 +1,8 @@
-import Layout from '@/components/Layout'
 import { Container } from '@mui/material'
 import { FC, useState } from 'react'
 import ManagerPostTab from './components/ManagerPostTab'
 import ManagerPostContent from './components/ManagerPostContent'
+import UserLayout from '@/components/Layout/UserLayout'
 
 interface ManagePostPageProps {}
 
@@ -13,7 +13,7 @@ const ManagePostPage: FC<ManagePostPageProps> = () => {
     name: 'Tuan Nguyen'
   }
   return (
-    <Layout>
+    <UserLayout>
       <Container
         disableGutters
         component={'div'}
@@ -30,7 +30,7 @@ const ManagePostPage: FC<ManagePostPageProps> = () => {
         />
       </Container>
       <ManagerPostContent />
-    </Layout>
+    </UserLayout>
   )
 }
 
