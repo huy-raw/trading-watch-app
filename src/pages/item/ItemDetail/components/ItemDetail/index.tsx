@@ -2,62 +2,25 @@ import {
   Container,
   Typography,
   Grid,
-  Paper,
   List,
   ListItem,
   ListItemText,
   Divider,
   Box
 } from '@mui/material'
+import ItemImageList from '../ItemImageList'
+
+const images = [
+  { src: 'https://picsum.photos/200/300', alt: 'Image 1' },
+  { src: 'https://picsum.photos/200/300', alt: 'Image 2' },
+  { src: 'https://picsum.photos/200/300', alt: 'Image 3' }
+]
 
 const ItemDetail = () => {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={12}>
-          <Paper
-            elevation={4}
-            sx={{
-              width: 'fit-content',
-              margin: 'auto'
-            }}
-          >
-            <img
-              src="https://via.placeholder.com/300" // Replace with actual image URL
-              alt="Main"
-              style={{ width: '500px' }}
-            />
-          </Paper>
-          <Grid container spacing={1} mt={1}>
-            <Grid item xs={4}>
-              <Paper elevation={3}>
-                <img
-                  src="https://via.placeholder.com/100" // Replace with actual image URL
-                  alt="Thumbnail 1"
-                  style={{ width: '100%' }}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper elevation={3}>
-                <img
-                  src="https://via.placeholder.com/100" // Replace with actual image URL
-                  alt="Thumbnail 2"
-                  style={{ width: '100%' }}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper elevation={3}>
-                <img
-                  src="https://via.placeholder.com/100" // Replace with actual image URL
-                  alt="Thumbnail 3"
-                  style={{ width: '100%' }}
-                />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Grid>
+        <ItemImageList images={images} />
         <Grid item xs={12} md={12}>
           <Box
             sx={{

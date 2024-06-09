@@ -1,4 +1,3 @@
-import Layout from '@/components/Layout'
 import { CheckCircle } from '@mui/icons-material'
 import {
   Box,
@@ -9,22 +8,24 @@ import {
   Typography
 } from '@mui/material'
 import ImageUpload from './components/UploadFile'
+import UserLayout from '@/components/Layout/UserLayout'
 
 interface CreateExpertisePageProps {}
 
 const names = ['10', '20', '30']
 
 const CreateExpertisePage = (props: CreateExpertisePageProps) => {
-  console.log(props)
   return (
-    <Layout>
+    <UserLayout>
       <Box
         component={'div'}
         sx={{
           marginTop: '120px',
           marginBottom: '40px',
           padding: '40px',
-          backgroundColor: '#fff'
+          backgroundColor: '#fff',
+          maxWidth: '1200px',
+          marginX: 'auto'
         }}
       >
         <Grid container spacing={4} paddingX={5}>
@@ -437,7 +438,10 @@ const CreateExpertisePage = (props: CreateExpertisePageProps) => {
               backgroundColor: '#434343',
               borderColor: '#434343',
               marginTop: '30px',
-              marginLeft: '40px'
+              marginLeft: '40px',
+              ':hover': {
+                backgroundColor: '#434343'
+              }
             }}
             size="large"
             variant="outlined"
@@ -446,7 +450,7 @@ const CreateExpertisePage = (props: CreateExpertisePageProps) => {
           </Button>
         </Grid>
       </Box>
-    </Layout>
+    </UserLayout>
   )
 }
 

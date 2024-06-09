@@ -3,7 +3,7 @@ import { styled } from '@mui/material'
 import CommonLayout from '../CommonLayout'
 import AppraiserNavbar from '@/components/AppraiserNavbar'
 
-interface LayoutProps {
+interface AppraiserLayoutProps {
   children: React.ReactNode
 }
 
@@ -16,14 +16,15 @@ const StyledLayout = styled(`div`)`
   background-color: #f5f5f5;
 `
 
-const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
+const AppraiserLayout: React.FC<AppraiserLayoutProps> = ({
+  children
+}: AppraiserLayoutProps) => {
   return (
     <CommonLayout>
       <AppraiserNavbar />
       <StyledLayout>{children}</StyledLayout>
-      <Footer />
     </CommonLayout>
   )
 }
 
-export default Layout
+export default AppraiserLayout

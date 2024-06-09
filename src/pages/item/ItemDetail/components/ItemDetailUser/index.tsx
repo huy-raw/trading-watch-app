@@ -2,8 +2,14 @@ import { Box, Typography, Grid, Button, Avatar, Link } from '@mui/material'
 import PhoneIcon from '@mui/icons-material/Phone'
 import ChatIcon from '@mui/icons-material/Chat'
 import { useLoaderData } from 'react-router-dom'
+import { Role } from '@/common/type'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
-const ItemDetailUser = () => {
+interface ItemDetailUserProps {
+  role?: Role
+}
+
+const ItemDetailUser = ({ role = Role.BUYER }: ItemDetailUserProps) => {
   const data = useLoaderData()
   const { id } = data as { id: string }
   return (
@@ -31,15 +37,64 @@ const ItemDetailUser = () => {
             )
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={5}>
           <Button variant="outlined" fullWidth startIcon={<PhoneIcon />}>
             0987654321
           </Button>
         </Grid>
-        <Grid item xs={12}>
-          <Button variant="outlined" fullWidth startIcon={<ChatIcon />}>
+        <Grid item xs={7}>
+          <Button
+            variant="outlined"
+            fullWidth
+            sx={{
+              textTransform: 'none',
+              fontSize: '14px',
+              bgcolor: 'primary.main',
+              color: 'white',
+              '&:hover': {
+                bgcolor: 'primary.dark'
+              }
+            }}
+            startIcon={<ChatIcon />}
+          >
             Chat với người bán
           </Button>
+        </Grid>
+        <Grid item xs={12}>
+          {role === Role.BUYER ? (
+            <Button
+              variant="outlined"
+              fullWidth
+              sx={{
+                textTransform: 'none',
+                fontSize: '14px',
+                bgcolor: 'primary.main',
+                color: 'white',
+                '&:hover': {
+                  bgcolor: 'primary.dark'
+                }
+              }}
+            >
+              Đặt hàng
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              fullWidth
+              sx={{
+                textTransform: 'none',
+                fontSize: '14px',
+                bgcolor: 'primary.main',
+                color: 'white',
+                '&:hover': {
+                  bgcolor: 'primary.dark'
+                }
+              }}
+            >
+              <VisibilityOffIcon sx={{ marginRight: 1 }} />
+              Đã bán/ Ẩn tin
+            </Button>
+          )}
         </Grid>
         <Grid
           item

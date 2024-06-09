@@ -1,11 +1,11 @@
-import Layout from '@/components/Layout'
 import ListCards from './components/ListCards'
 import { Box } from '@mui/material'
 import Banner from './components/Banner'
+import UserLayout from '@/components/Layout/UserLayout'
 
 const HomePage = () => {
   return (
-    <Layout>
+    <UserLayout>
       <Box
         sx={{
           backgroundColor: '#fff',
@@ -16,7 +16,7 @@ const HomePage = () => {
         <Banner />
         <ListCards />
       </Box>
-    </Layout>
+    </UserLayout>
   )
 }
 

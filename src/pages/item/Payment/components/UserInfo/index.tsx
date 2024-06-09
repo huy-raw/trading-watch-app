@@ -21,7 +21,9 @@ const UserInfo: React.FC<UserInfoProps> = ({
       borderColor="grey.300"
       borderRadius={2}
       m={2}
+      bgcolor={'#FFFFFF'}
       component={'div'}
+      width={'inherit'}
     >
       <Box
         component={'div'}
@@ -62,10 +64,10 @@ const UserInfo: React.FC<UserInfoProps> = ({
         </Link>
       </Box>
       <Box display="flex" alignItems="center" m={2}>
-        <Typography variant="h6" style={{ marginRight: 8 }}>
+        <Typography variant="h6" style={{ marginRight: 8, fontWeight: 600 }}>
           {name}
         </Typography>
-        <Typography margin={2} variant="h6">
+        <Typography margin={2} variant="h6" sx={{ fontWeight: 600 }}>
           {phone}
         </Typography>
         <Typography margin={2} variant="body1">

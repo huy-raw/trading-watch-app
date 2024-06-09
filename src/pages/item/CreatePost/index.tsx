@@ -1,11 +1,11 @@
-import Layout from '@/components/Layout'
 import { Box, Grid, Typography } from '@mui/material'
 import ImageVideoSide from './components/ImageVideoSide'
 import InformationSide from './components/InformationSide'
+import UserLayout from '@/components/Layout/UserLayout'
 
 const CreatePostPage = () => {
   return (
-    <Layout>
+    <UserLayout>
       <Box
         component={'div'}
         sx={{
@@ -32,7 +32,7 @@ const CreatePostPage = () => {
           </Grid>
         </Grid>
       </Box>
-    </Layout>
+    </UserLayout>
   )
 }
 

@@ -1,19 +1,20 @@
-import Layout from '@/components/Layout'
 import { Container, Grid } from '@mui/material'
 import ItemDetail from './components/ItemDetail'
 import ItemDetailUser from './components/ItemDetailUser'
+import UserLayout from '@/components/Layout/UserLayout'
+import { Role } from '@/common/type'
 
 interface ItemDetailPageProps {
   id?: string
+  role?: Role
 }
 
 const ItemDetailPage: React.FC<ItemDetailPageProps> = ({
-  id
+  id,
+  role
 }: ItemDetailPageProps) => {
-  console.log('id', id)
-
   return (
-    <Layout>
+    <UserLayout>
       <Container
         component={'div'}
         sx={{
@@ -27,11 +28,11 @@ const ItemDetailPage: React.FC<ItemDetailPageProps> = ({
             <ItemDetail />
           </Grid>
           <Grid item xs={12} md={4}>
-            <ItemDetailUser />
+            <ItemDetailUser role={role} />
           </Grid>
         </Grid>
       </Container>
-    </Layout>
+    </UserLayout>
   )
 }
 
