@@ -38,8 +38,8 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
   }
 
   return (
-    <Container maxWidth="xs">
-      <Box sx={{ mt: 8, textAlign: 'center' }}>
+    <Container>
+      <Box sx={{ textAlign: 'center' }}>
         <Typography variant="h5" component="h1" gutterBottom>
           Đăng ký tài khoản
         </Typography>
@@ -168,13 +168,21 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, textTransform: 'none' }}
           >
             Xác nhận
           </Button>
           <Typography variant="body2" align="center">
-            Đã có tài khoản?{' '}
-            <Button onClick={handleChangeFormType}>Đăng nhập ngay</Button>
+            Đã có tài khoản?
+            <Button
+              sx={{
+                textTransform: 'none',
+                fontWeight: 'bold'
+              }}
+              onClick={handleChangeFormType}
+            >
+              Đăng nhập ngay
+            </Button>
           </Typography>
         </Box>
       </Box>

@@ -10,6 +10,7 @@ import { Google as GoogleIcon } from '@mui/icons-material'
 import { useFormik } from 'formik'
 import { useContext } from 'react'
 import { AuthContext } from '@/contexts/AuthContext'
+import { signin } from '@/services/authService'
 
 interface LoginFormProps {
   handleChangeFormType: () => void
@@ -23,19 +24,21 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
       email: '',
       password: ''
     },
-    onSubmit: (values) => {
-      login({
-        email: values.email,
-        name: 'Thang Ngol',
-        role: 'appraiser'
-      })
+    onSubmit: async (values) => {
+      console.log(values)
+      await signin(values)
     }
   })
 
   return (
-    <Container maxWidth="xs">
-      <Box sx={{ mt: 8, textAlign: 'center' }}>
-        <Typography variant="h5" component="h1" gutterBottom>
+    <Container>
+      <Box
+        sx={{
+          textAlign: 'center',
+          margin: '0 auto'
+        }}
+      >
+        <Typography variant="h5" fontSize={'26px'} component="h1" gutterBottom>
           Đăng nhập tài khoản
         </Typography>
         <Box component="form" onSubmit={form.handleSubmit} sx={{ mt: 1 }}>
@@ -90,11 +93,17 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
             startIcon={<GoogleIcon />}
             sx={{ mb: 2 }}
           >
-            Continue with Google
+            Đăng nhập bằng Google
           </Button>
           <Typography variant="body2" align="center">
-            Chưa có tài khoản?{' '}
-            <Button onClick={handleChangeFormType}>
+            Chưa có tài khoản?
+            <Button
+              onClick={handleChangeFormType}
+              sx={{
+                textTransform: 'none',
+                fontWeight: 'bold'
+              }}
+            >
               Đăng ký tài khoản mới
             </Button>
           </Typography>
