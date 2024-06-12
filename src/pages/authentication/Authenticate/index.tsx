@@ -33,7 +33,8 @@ const AuthenticatePage = () => {
             maxWidth: '500px',
             margin: ' auto',
             padding: '30px 40px',
-            borderRadius: '20px'
+            borderRadius: '20px',
+            position: 'relative'
           }}
         >
           {authenticateType === 'login' ? (

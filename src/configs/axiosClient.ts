@@ -10,8 +10,8 @@ const axiosClient = axios.create({
 // Request Interceptor
 axiosClient.interceptors.request.use(
   (config) => {
-    // Add authorization token to headers if available
     const token = localStorage.getItem('token')
+    console.log('axiosClient', axiosClient)
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
@@ -32,7 +32,6 @@ axiosClient.interceptors.response.use(
       // Handle unauthorized errors (e.g., redirect to login)
       console.log('Unauthorized, logging out...')
       localStorage.removeItem('token')
-      window.location.href = '/login'
     }
     return Promise.reject(error)
   }

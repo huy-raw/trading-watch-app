@@ -8,16 +8,20 @@ import {
 } from '@mui/material'
 import { Google as GoogleIcon } from '@mui/icons-material'
 import { useFormik } from 'formik'
-import { useContext } from 'react'
-import { AuthContext } from '@/contexts/AuthContext'
 import { signin } from '@/services/authService'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/stores/userStore'
+import { useState } from 'react'
 
 interface LoginFormProps {
   handleChangeFormType: () => void
 }
 
 const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
-  const { login } = useContext(AuthContext)
+  const { setToken } = useAuthStore()
+  const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   const form = useFormik({
     initialValues: {
@@ -25,8 +29,24 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
       password: ''
     },
     onSubmit: async (values) => {
-      console.log(values)
-      await signin(values)
+      try {
+        const data = await signin(values)
+        setToken(data.accessToken)
+        localStorage.setItem('token', data.accessToken)
+        navigate('/')
+      } catch (error) {
+        setError('Email hoặc mật khẩu không chính xác')
+      }
+    },
+    validate: (values) => {
+      const errors: Record<string, string> = {}
+      if (!values.email) {
+        errors.email = 'Email không được để trống'
+      }
+      if (!values.password) {
+        errors.password = 'Mật khẩu không được để trống'
+      }
+      return errors
     }
   })
 
@@ -38,6 +58,16 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
           margin: '0 auto'
         }}
       >
+        <Button
+          sx={{
+            position: 'absolute',
+            top: '20px',
+            left: '20px'
+          }}
+          onClick={() => navigate('/')}
+        >
+          <ArrowBackIcon />
+        </Button>
         <Typography variant="h5" fontSize={'26px'} component="h1" gutterBottom>
           Đăng nhập tài khoản
         </Typography>
@@ -68,19 +98,30 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
             value={form.values.password}
             onChange={form.handleChange}
           />
+
           <Link
             href="#"
             variant="body2"
-            sx={{ display: 'block', textAlign: 'right', mt: 1 }}
+            sx={{ display: 'block', textAlign: 'left', mt: 1 }}
           >
             Quên mật khẩu ?
           </Link>
+          {error && (
+            <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 3, mb: 2 }}
+            disabled={
+              form.isSubmitting ||
+              form.values.email === '' ||
+              form.values.password === ''
+            }
+            sx={{ mt: 3, mb: 2, fontWeight: 'bold' }}
           >
             Đăng nhập
           </Button>
@@ -105,6 +146,18 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
               }}
             >
               Đăng ký tài khoản mới
+            </Button>
+          </Typography>
+          <Typography variant="body2" align="center">
+            Tìm kiếm đồng hồ
+            <Button
+              onClick={() => navigate('/')}
+              sx={{
+                textTransform: 'none',
+                fontWeight: 'bold'
+              }}
+            >
+              Trở về trang chủ
             </Button>
           </Typography>
         </Box>

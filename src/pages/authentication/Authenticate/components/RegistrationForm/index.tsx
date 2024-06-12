@@ -9,12 +9,15 @@ import {
   MenuItem
 } from '@mui/material'
 import { Email, Phone, Lock, Person, Event } from '@mui/icons-material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { useNavigate } from 'react-router-dom'
 
 interface RegistrationFormProps {
   handleChangeFormType: () => void
 }
 
 const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
+  const navigate = useNavigate()
   const [formValues, setFormValues] = useState({
     email: '',
     phone: '',
@@ -40,6 +43,16 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
   return (
     <Container>
       <Box sx={{ textAlign: 'center' }}>
+        <Button
+          sx={{
+            position: 'absolute',
+            top: '20px',
+            left: '20px'
+          }}
+          onClick={() => navigate('/')}
+        >
+          <ArrowBackIcon />
+        </Button>
         <Typography variant="h5" component="h1" gutterBottom>
           Đăng ký tài khoản
         </Typography>
