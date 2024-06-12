@@ -11,6 +11,9 @@ import {
 import { Email, Phone, Lock, Person, Event } from '@mui/icons-material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useNavigate } from 'react-router-dom'
+import { isEmpty } from 'lodash'
+import { signup } from '@/services/authService'
+import { useFormik } from 'formik'
 
 interface RegistrationFormProps {
   handleChangeFormType: () => void
@@ -18,27 +21,28 @@ interface RegistrationFormProps {
 
 const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
   const navigate = useNavigate()
-  const [formValues, setFormValues] = useState({
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-    fullName: '',
-    dob: '',
-    gender: ''
+  const [error, setError] = useState<string | null>(null)
+
+  const form = useFormik({
+    initialValues: {
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+      fullName: '',
+      dob: '',
+      gender: ''
+    },
+    onSubmit: async (values) => {
+      console.log(values)
+      // try {
+      //   const data = await signup(values)
+      //   navigate('/authenticate/login')
+      // } catch (error) {
+      //   setError('Email hoặc mật khẩu không chính xác')
+      // }
+    }
   })
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // Handle form submission logic here
-  }
 
   return (
     <Container>
@@ -56,7 +60,7 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
         <Typography variant="h5" component="h1" gutterBottom>
           Đăng ký tài khoản
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={form.handleSubmit} sx={{ mt: 1 }}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -67,8 +71,8 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
             name="email"
             autoComplete="email"
             autoFocus
-            value={formValues.email}
-            onChange={handleChange}
+            value={form.values.email}
+            onChange={form.handleChange}
             InputProps={{
               endAdornment: <Email />
             }}
@@ -82,8 +86,8 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
             label="Số điện thoại"
             name="phone"
             autoComplete="phone"
-            value={formValues.phone}
-            onChange={handleChange}
+            value={form.values.phone}
+            onChange={form.handleChange}
             InputProps={{
               endAdornment: <Phone />
             }}
@@ -98,8 +102,8 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
             type="password"
             id="password"
             autoComplete="new-password"
-            value={formValues.password}
-            onChange={handleChange}
+            value={form.values.password}
+            onChange={form.handleChange}
             InputProps={{
               endAdornment: <Lock />
             }}
@@ -114,8 +118,8 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
             type="password"
             id="confirmPassword"
             autoComplete="new-password"
-            value={formValues.confirmPassword}
-            onChange={handleChange}
+            value={form.values.confirmPassword}
+            onChange={form.handleChange}
             InputProps={{
               endAdornment: <Lock />
             }}
@@ -129,8 +133,8 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
             label="Họ và tên"
             name="fullName"
             autoComplete="name"
-            value={formValues.fullName}
-            onChange={handleChange}
+            value={form.values.fullName}
+            onChange={form.handleChange}
             InputProps={{
               endAdornment: <Person />
             }}
@@ -150,8 +154,8 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
                 InputLabelProps={{
                   shrink: true
                 }}
-                value={formValues.dob}
-                onChange={handleChange}
+                value={form.values.dob}
+                onChange={form.handleChange}
                 InputProps={{
                   endAdornment: <Event />
                 }}
@@ -167,8 +171,8 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
                 label="Giới tính"
                 name="gender"
                 select
-                value={formValues.gender}
-                onChange={handleChange}
+                value={form.values.gender}
+                onChange={form.handleChange}
               >
                 <MenuItem value="male">Nam</MenuItem>
                 <MenuItem value="female">Nữ</MenuItem>
@@ -182,6 +186,15 @@ const RegistrationForm = ({ handleChangeFormType }: RegistrationFormProps) => {
             variant="contained"
             color="primary"
             sx={{ mt: 3, mb: 2, textTransform: 'none' }}
+            disabled={
+              isEmpty(form.values.email) ||
+              isEmpty(form.values.password) ||
+              isEmpty(form.values.confirmPassword) ||
+              isEmpty(form.values.fullName) ||
+              isEmpty(form.values.dob) ||
+              isEmpty(form.values.phone) ||
+              isEmpty(form.values.gender)
+            }
           >
             Xác nhận
           </Button>

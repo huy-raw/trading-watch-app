@@ -5,6 +5,10 @@ export interface LoginModel {
 
 export interface RegisterModel {
   email: string
+  phone: string
   password: string
-  name: string
+  confirmPassword: string
+  fullName: string
+  dob: string
+  gender: string
 }

@@ -13,6 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/userStore'
 import { useState } from 'react'
+import { isEmpty } from 'lodash'
 
 interface LoginFormProps {
   handleChangeFormType: () => void
@@ -118,8 +119,8 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
             color="primary"
             disabled={
               form.isSubmitting ||
-              form.values.email === '' ||
-              form.values.password === ''
+              isEmpty(form.values.email) ||
+              isEmpty(form.values.password)
             }
             sx={{ mt: 3, mb: 2, fontWeight: 'bold' }}
           >
