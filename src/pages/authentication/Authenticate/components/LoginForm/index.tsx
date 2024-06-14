@@ -11,15 +11,18 @@ import { useFormik } from 'formik'
 import { signin } from '@/services/authService'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '@/stores/userStore'
 import { useState } from 'react'
+import { authStore } from '@/stores/authStore'
+import { useUserStore } from '@/stores/userStore'
+import { Role } from '@/common/type'
 
 interface LoginFormProps {
   handleChangeFormType: () => void
 }
 
 const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
-  const { setToken } = useAuthStore()
+  const { setToken } = authStore()
+  const { setUser } = useUserStore()
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
 
@@ -32,8 +35,18 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
       try {
         const data = await signin(values)
         setToken(data.accessToken)
+        setUser({
+          userid: data.userid,
+          role: data.role,
+          name: data.name
+        })
         localStorage.setItem('token', data.accessToken)
-        navigate('/')
+        if (data.role === Role.APPRAISER) {
+          console.log(data)
+          navigate('/appraiser/dashboard')
+        } else {
+          navigate('/')
+        }
       } catch (error) {
         setError('Email hoặc mật khẩu không chính xác')
       }

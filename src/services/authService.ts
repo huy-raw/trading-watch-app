@@ -1,7 +1,7 @@
 import axiosClient from '@/configs/axiosClient'
-import { LoginModel, RegisterModel } from './type'
+import { LoginRequest, RegisterRequest } from './type'
 
-const signin = async (request: LoginModel) => {
+const signin = async (request: LoginRequest) => {
   try {
     const response = await axiosClient.post('/auth/login', request)
 
@@ -11,7 +11,7 @@ const signin = async (request: LoginModel) => {
   }
 }
 
-const signup = async (request: RegisterModel) => {
+const signup = async (request: RegisterRequest) => {
   try {
     const response = await axiosClient.post('/auth/register', request)
 
