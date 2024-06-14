@@ -131,8 +131,8 @@ const LoginForm = ({ handleChangeFormType }: LoginFormProps) => {
             color="primary"
             disabled={
               form.isSubmitting ||
-              form.values.email === '' ||
-              form.values.password === ''
+              isEmpty(form.values.email) ||
+              isEmpty(form.values.password)
             }
             sx={{ mt: 3, mb: 2, fontWeight: 'bold' }}
           >

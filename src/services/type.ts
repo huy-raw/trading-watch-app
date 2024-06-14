@@ -7,8 +7,12 @@ export interface LoginRequest {
 
 export interface RegisterRequest {
   email: string
+  phone: string
   password: string
-  name: string
+  confirmPassword: string
+  fullName: string
+  dob: string
+  gender: string
 }
 
 export interface CreateAppraisalRequest {
