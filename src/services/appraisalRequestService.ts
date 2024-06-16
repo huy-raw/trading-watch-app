@@ -1,5 +1,22 @@
 import axiosClient from '@/configs/axiosClient'
-import { CreateAppraisalRequest } from './type'
+import { AppPath } from './utils'
+
+export interface CreateAppraisalRequest {
+  name: string
+  email: string
+  phoneNumber: string
+  hasOriginalBox: boolean
+  hasPapersOrWarranty: boolean
+  hasPurchaseReceipt: boolean
+  areThereAnyStickers: boolean
+  age: number
+  region: string
+  desiredPrice: number
+  description: string
+  brand: string
+  referenceCode: string
+  imageFiles: unknown[]
+}
 
 const createAppraisalRequest = async (req: CreateAppraisalRequest) => {
   try {
@@ -19,11 +36,12 @@ const createAppraisalRequest = async (req: CreateAppraisalRequest) => {
     form.append('referenceCode', `${req.referenceCode}`)
     form.append('imageFiles', `${req.imageFiles}`)
 
-    const response = await axiosClient.post('/appraisal-requests/create')
+    const response = await axiosClient.post(AppPath.CREATE_APPRAISAL_REQUEST)
 
     return response.data
   } catch (error) {
     console.error(error)
+    throw error
   }
 }
 

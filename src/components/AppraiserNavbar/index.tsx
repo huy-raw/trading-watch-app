@@ -6,7 +6,7 @@ import { useUserStore } from '@/stores/userStore'
 import UserMenu from '../UserMenu'
 
 const pages = [
-  { title: 'Yêu cầu thẩm định', href: '/appraiser' },
+  { title: 'Yêu cầu thẩm định', href: '/appraiser/dashboard' },
   { title: 'Lịch sử thẩm định', href: '/' },
   { title: 'Tin nhắn', href: '/' },
   { title: 'Tạo giấy thẩm định', href: '/appraiser/create-appraisal-paper' },
