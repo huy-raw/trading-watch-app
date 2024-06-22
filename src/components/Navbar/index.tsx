@@ -21,12 +21,6 @@ import { useEffect, useState } from 'react'
 import UserMenu from '../UserMenu'
 import { useUserStore } from '@/stores/userStore'
 
-const pages = [
-  { title: 'Thương Hiệu', href: '/' },
-  { title: 'Đồng Hồ', href: '/' },
-  { title: 'Thẩm Định', href: '/appraisal/online-form' }
-]
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -110,7 +104,7 @@ const Navbar = () => {
         }}
       >
         <Box
-          marginLeft={6}
+          marginLeft={4}
           component={'button'}
           bgcolor={'transparent'}
           border={'none'}
@@ -120,23 +114,32 @@ const Navbar = () => {
         >
           <img src={Logo} alt="logo" height={'46px'} />
         </Box>
-        <Box>
-          {pages.map((page) => (
-            <Button
-              key={page.title}
-              sx={{
-                textTransform: 'none',
-                fontSize: '14px',
-                fontWeight: '600',
-                width: 'fit-content',
-                marginLeft: '10px'
-              }}
-              color="inherit"
-              href={page.href}
-            >
-              {page.title}
-            </Button>
-          ))}
+
+        <Box sx={{ marginRight: 10 }}>
+          <Button
+            sx={{
+              textTransform: 'none',
+              fontSize: '14px',
+              fontWeight: '600',
+              width: 'fit-content',
+              marginRight: 2
+            }}
+            color="inherit"
+          >
+            Danh mục
+          </Button>
+          <Button
+            sx={{
+              textTransform: 'none',
+              fontSize: '14px',
+              fontWeight: '600',
+              width: 'fit-content'
+            }}
+            color="inherit"
+            href="/appraisal/online-form"
+          >
+            Thẩm định
+          </Button>
         </Box>
         <Box>
           <Search>
