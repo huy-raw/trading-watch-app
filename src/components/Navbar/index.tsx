@@ -5,9 +5,7 @@ import {
   Button,
   InputBase,
   Toolbar,
-  Typography,
-  alpha,
-  styled
+  Typography
 } from '@mui/material'
 import Logo from '@/assets/app-logo.png'
 import SearchIcon from '@mui/icons-material/Search'
@@ -19,7 +17,8 @@ import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
 import { AuthenticateType } from '@/pages/authentication/Authenticate/type'
 import { useEffect, useState } from 'react'
 import UserMenu from '../UserMenu'
-import { useUserStore } from '@/stores/userStore'
+import useAuth from '@/stores/authStore'
+import { alpha, styled } from '@mui/material/styles'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -68,15 +67,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 const Navbar = () => {
-  const { user } = useUserStore()
-  const token = localStorage.getItem('token')
+  const { user } = useAuth()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-
-  useEffect(() => {
-    if (!token) {
-      window.location.href = '/authenticate/login'
-    }
-  }, [token])
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -86,7 +78,7 @@ const Navbar = () => {
     setAnchorEl(null)
   }
 
-  const hasAuth = user || token
+  const hasAuth = user
 
   return (
     <AppBar
