@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { createTheme } from '@mui/material/styles'
 import { SWRConfig } from 'swr'
 import { fetcher } from './services/utils'
+import ScrollToTop from './components/ScollOnTop'
 
 const theme = createTheme()
 

@@ -16,17 +16,15 @@ import jsPDF from 'jspdf'
 import AppraisalFormInput from '../AppraisalFormInput'
 import ConfirmDialog from '../ConfirmDialog'
 import html2canvas from 'html2canvas'
+import { useNavigate } from 'react-router-dom'
 
 interface CreateAppraisalPaperProps {
-  itemName: string
-  itemCode: string
+  id: string | undefined
 }
 
-const CreateAppraisalPaper = ({
-  itemCode,
-  itemName
-}: CreateAppraisalPaperProps) => {
+const CreateAppraisalPaper = ({ id }: CreateAppraisalPaperProps) => {
   const pageRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
 
   const [open, setOpen] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([])
@@ -120,7 +118,12 @@ const CreateAppraisalPaper = ({
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
 
     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
-    pdf.save('appraisal.pdf')
+
+    const pdfUrl = pdf.output('blob')
+
+    navigate(`/appraiser/${id}/view-appraisal-form`, {
+      state: { pdfUrl, fileName: 'document.pdf' }
+    })
   }
 
   const handleOpen = () => {
@@ -173,7 +176,7 @@ const CreateAppraisalPaper = ({
           <Grid
             item
             xs={12}
-            md={6}
+            md={8}
             sx={{
               flexDirection: 'column',
               display: 'flex'
@@ -283,7 +286,7 @@ const CreateAppraisalPaper = ({
               error={form.errors.valueEstimate}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <Box
               display="flex"
               flexDirection="column"
