@@ -111,7 +111,7 @@ const router = createBrowserRouter([
         element: <AppraisalFormDetailPage />
       },
       {
-        path: 'create-appraisal-paper',
+        path: ':id/create-appraisal-paper',
         element: <CreateAppraisalPaperPage />
       },
       {

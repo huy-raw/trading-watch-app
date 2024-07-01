@@ -23,7 +23,7 @@ import WatchImages from './components/WatchImages'
 const ViewAppraisalFormPage = () => {
   const navigate = useNavigate()
   const { id } = useParams()
-  const { data, error, isLoading } = useSWR(
+  const { data, isLoading } = useSWR(
     `${AppPath.GET_APPRAISAL_REQUESTS_BY_ID}/${id}`
   )
 
@@ -105,21 +105,14 @@ const ViewAppraisalFormPage = () => {
               alignItems: 'flex-end'
             }}
           >
-            <input
-              accept="application/pdf"
-              id="upload-pdf"
-              type="file"
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-            />
             <label htmlFor={selectedFile ? '' : 'upload-pdf'}>
               <Button
                 variant="contained"
                 color="success"
                 component="span"
                 onClick={() => {
-                  if (selectedFile) {
-                    handleOpenDialog()
+                  if (!selectedFile) {
+                    navigate(`/appraiser/${id}/create-appraisal-paper`)
                   }
                 }}
               >

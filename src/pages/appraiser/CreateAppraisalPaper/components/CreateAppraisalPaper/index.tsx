@@ -168,14 +168,6 @@ const CreateAppraisalPaper = ({
           <Typography textAlign={'right'} fontSize={'24px'}>
             Mã: 19999
           </Typography>
-          <Typography
-            sx={{
-              fontSize: 32,
-              fontWeight: 'medium'
-            }}
-          >
-            Mặt hàng: <b>Đồng hồ Rolex</b>
-          </Typography>
         </Box>
         <Grid container spacing={2} component={'div'} marginX={8} marginTop={8}>
           <Grid

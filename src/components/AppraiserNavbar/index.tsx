@@ -58,7 +58,7 @@ const AppraiserNavbar = () => {
             bgcolor={'transparent'}
             border={'none'}
             onClick={() => {
-              window.location.href = '/'
+              window.location.href = '/appraiser/dashboard'
             }}
           >
             <img src={Logo} alt="logo" height={'46px'} />

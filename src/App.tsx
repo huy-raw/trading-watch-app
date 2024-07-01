@@ -16,7 +16,7 @@ function App() {
     <SWRConfig
       value={{
         fetcher,
-        refreshInterval: 3000
+        refreshInterval: 5000
       }}
     >
       <ThemeProvider theme={theme}>
