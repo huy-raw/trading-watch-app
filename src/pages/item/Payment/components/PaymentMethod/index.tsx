@@ -25,6 +25,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ price, extraPrice }) => {
       }
     })
   }
+
   return (
     <Box
       border={1}

@@ -87,7 +87,7 @@ const Navbar = () => {
   const handleSearchSubmit = (event: React.FormEvent<HTMLDivElement>) => {
     event.preventDefault()
     // Handle search action, e.g., redirect to search results page
-    navigate(`/item/search?keyword=${searchQuery}`)
+    navigate(`/item/product?keyword=${searchQuery}`)
   }
 
   const hasAuth = user

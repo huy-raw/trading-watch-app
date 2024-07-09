@@ -17,6 +17,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const OrderItem = ({ item }) => {
   const [open, setOpen] = useState(false)
+  const [cancel, setCancel] = useState(false)
   return (
     <Card
       sx={{
@@ -98,6 +99,15 @@ const OrderItem = ({ item }) => {
           }}
           title={'Xác nhận duyệt đơn'}
           description={'Bạn có chắc chắn muốn duyệt đơn mua này ?'}
+        />
+        <ConfirmDialog
+          open={cancel}
+          onClose={() => setCancel(false)}
+          onConfirm={function (): void {
+            throw new Error('Function not implemented.')
+          }}
+          title={'Xác nhận huỷ đơn'}
+          description={'Bạn có muốn hủy đơn này ?'}
         />
       </Box>
     </Card>

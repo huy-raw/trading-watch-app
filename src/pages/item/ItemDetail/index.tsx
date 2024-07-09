@@ -1,38 +1,35 @@
 import { Container, Grid } from '@mui/material'
 import ItemDetail from './components/ItemDetail'
 import ItemDetailUser from './components/ItemDetailUser'
-import UserLayout from '@/components/Layout/UserLayout'
 import { Role } from '@/common/type'
+import { AppPath } from '@/services/utils'
+import useSWR from 'swr'
+import { useLoaderData } from 'react-router-dom'
+import useAuth from '@/stores/authStore'
 
-interface ItemDetailPageProps {
-  id?: string
-  role?: Role
-}
+const ItemDetailPage = () => {
+  const { id } = useLoaderData() as { id: string }
+  const { user } = useAuth()
+  const { data, isLoading } = useSWR(AppPath.GET_WATCH_BY_ID(id))
 
-const ItemDetailPage: React.FC<ItemDetailPageProps> = ({
-  id,
-  role
-}: ItemDetailPageProps) => {
   return (
-    <UserLayout>
-      <Container
-        component={'div'}
-        sx={{
-          backgroundColor: '#fff',
-          padding: '40px',
-          marginTop: '60px'
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
-            <ItemDetail />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <ItemDetailUser role={role} />
-          </Grid>
+    <Container
+      component={'div'}
+      sx={{
+        backgroundColor: '#fff',
+        padding: '40px',
+        marginTop: '60px'
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={8}>
+          <ItemDetail watch={data} images={[]} isLoading={isLoading} />
         </Grid>
-      </Container>
-    </UserLayout>
+        <Grid item xs={12} md={4}>
+          <ItemDetailUser role={user?.role} />
+        </Grid>
+      </Grid>
+    </Container>
   )
 }
 

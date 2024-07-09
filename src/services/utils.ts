@@ -12,7 +12,8 @@ export const AppPath = {
   GET_WATCH_BY_ID: (id) => `/api/watches/${id}/getWatchById`,
   USER_INFO: (id) => `/api/users/${id}`,
   SEARCH_BY_KEYWORD: ({ keyword, page, size }) =>
-    `/api/watches/searchWatchByKeyword?keyword=${keyword}&page=${page}&size=${size}`
+    `/api/watches/searchWatchByKeyword?keyword=${keyword}&page=${page}&size=${size}`,
+  CREATE_ORDER: '/orders/create'
 }
 
 export const fetcher = (url) => axiosClient.get(url).then((res) => res.data)
