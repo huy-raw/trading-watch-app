@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import ConfirmDialog from '@/components/ConfirmDiaglog'
+import { useNavigate } from 'react-router-dom'
 
 const StyledButton = styled(Button)(({ theme }) => ({
   marginLeft: theme.spacing(1),
@@ -16,6 +17,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }))
 
 const OrderItem = ({ item }) => {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [cancel, setCancel] = useState(false)
   return (
@@ -94,9 +96,7 @@ const OrderItem = ({ item }) => {
         <ConfirmDialog
           open={open}
           onClose={() => setOpen(false)}
-          onConfirm={function (): void {
-            throw new Error('Function not implemented.')
-          }}
+          onConfirm={() => navigate('/item/payment')}
           title={'Xác nhận duyệt đơn'}
           description={'Bạn có chắc chắn muốn duyệt đơn mua này ?'}
         />

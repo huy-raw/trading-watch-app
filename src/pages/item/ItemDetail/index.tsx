@@ -1,15 +1,16 @@
 import { Container, Grid } from '@mui/material'
 import ItemDetail from './components/ItemDetail'
 import ItemDetailUser from './components/ItemDetailUser'
-import { Role } from '@/common/type'
 import { AppPath } from '@/services/utils'
 import useSWR from 'swr'
 import { useLoaderData } from 'react-router-dom'
-import useAuth from '@/stores/authStore'
 
 const ItemDetailPage = () => {
   const { id } = useLoaderData() as { id: string }
-  const { user } = useAuth()
+  const user = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user') as string)
+    : null
+
   const { data, isLoading } = useSWR(AppPath.GET_WATCH_BY_ID(id))
 
   return (

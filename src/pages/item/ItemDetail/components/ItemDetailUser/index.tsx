@@ -5,7 +5,6 @@ import { useLoaderData, useNavigate } from 'react-router-dom'
 import { Role } from '@/common/type'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { createOrder } from '@/services/orderService'
-import useAuth from '@/stores/authStore'
 import { useState } from 'react'
 import ConfirmDialog from '@/components/ConfirmDiaglog'
 import { toast } from 'react-toastify'
@@ -16,28 +15,24 @@ interface ItemDetailUserProps {
 
 const ItemDetailUser = ({ role = Role.BUYER }: ItemDetailUserProps) => {
   const navigate = useNavigate()
+  const user = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user') as string)
+    : null
+
   const [isOpen, setIsOpen] = useState(false)
   const data = useLoaderData()
   const { id } = data as { id: string }
-  const { user } = useAuth()
 
   const handleCreateOrder = async () => {
-    // const res = await createOrder({ watchId: Number(id), userId: 1 })
-
-    // if (res) {
-    //   setIsOpen(false)
-    //   toast.success('Đặt hàng thành công', {
-    //     onClose(props) {
-    //       navigate('/')
-    //     }
-    //   })
-    // }
-    toast.success('Đặt hàng thành công', {
-      onClose(props) {
-        setIsOpen(false)
-        navigate('/')
-      }
-    })
+    const res = await createOrder({ watchId: Number(id), userId: user.id })
+    if (res) {
+      setIsOpen(false)
+      toast.success('Đặt hàng thành công', {
+        onClose() {
+          navigate('/')
+        }
+      })
+    }
   }
   return (
     <Box sx={{ padding: 2 }} component={'div'} id={`${id}`}>

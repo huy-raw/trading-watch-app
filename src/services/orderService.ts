@@ -8,7 +8,9 @@ interface CreateOrderRequest {
 
 export const createOrder = async (req: CreateOrderRequest) => {
   try {
-    const response = await axiosClient.post(AppPath.CREATE_ORDER, req)
+    const response = await axiosClient.post(
+      `${AppPath.CREATE_ORDER}?watchId=${req.watchId}&userId=${req.userId}`
+    )
 
     return response.data
   } catch (error) {
