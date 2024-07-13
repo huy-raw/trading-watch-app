@@ -1,14 +1,17 @@
 import SelectInput from '@/components/Controls/SelectInput'
 import TextInput from '@/components/Controls/TextInput'
+import { AppPath } from '@/services/utils'
 import { Box, Button, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { FC } from 'react'
+import useSWR from 'swr'
 
 interface InformationSideProps {}
 
 const mockedOptions = ['Option 1', 'Option 2', 'Option 3']
 
 const InformationSide: FC<InformationSideProps> = () => {
+  const { data: types, isLoading: isLoadingTypes } = useSWR(AppPath.GET_BRANDS)
   const form = useFormik({
     initialValues: {
       brand: '',
@@ -43,7 +46,9 @@ const InformationSide: FC<InformationSideProps> = () => {
         isDisabled={false}
         fullWidth={true}
         name="brand"
-        options={mockedOptions}
+        options={types?.map(
+          (type: { id: number; brandName: string }) => type.brandName
+        )}
       />
       <Typography
         textAlign={'left'}
