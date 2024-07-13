@@ -20,7 +20,8 @@ const ImageVideoSide: FC<ImageVideoSideProps> = () => {
               padding: 3,
               textAlign: 'center',
               bgcolor: '#f5f5f5',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              marginX: 20
             }}
           >
             <AddAPhotoIcon sx={{ fontSize: 50 }} />
@@ -37,7 +38,8 @@ const ImageVideoSide: FC<ImageVideoSideProps> = () => {
               borderRadius: 2,
               textAlign: 'center',
               bgcolor: '#f5f5f5',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              marginX: 20
             }}
           >
             <VideoCallIcon sx={{ fontSize: 50 }} />

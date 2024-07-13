@@ -36,7 +36,7 @@ const SearchPage = () => {
           textAlign: 'left'
         }}
       >
-        {query && (
+        {query.trim() && (
           <Typography
             sx={{
               fontSize: '1.5rem',

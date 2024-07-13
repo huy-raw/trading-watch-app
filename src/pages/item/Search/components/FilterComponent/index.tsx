@@ -1,15 +1,79 @@
-import React from 'react'
-import { Box, Button, MenuItem, Select, Typography } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import { Box, MenuItem, TextField, Typography } from '@mui/material'
+import useSWR from 'swr'
+import { AppPath } from '@/services/utils'
 
 const FilterComponent = () => {
-  const filters = [
-    { label: 'Khu vực', options: ['Option 1', 'Option 2', 'Option 3'] },
-    { label: 'Thương hiệu', options: ['Option 1', 'Option 2', 'Option 3'] },
-    { label: 'Giá', options: ['Option 1', 'Option 2', 'Option 3'] },
-    { label: 'Trạng thái', options: ['Option 1', 'Option 2', 'Option 3'] },
-    { label: 'Loại', options: ['Option 1', 'Option 2', 'Option 3'] },
-    { label: 'Tình trạng', options: ['Option 1', 'Option 2', 'Option 3'] }
+  const { data: brands, isLoading } = useSWR(AppPath.GET_BRANDS)
+  const { data: types, isLoading: isLoadingTypes } = useSWR(AppPath.GET_TYPES)
+  const [filters, setFilters] = useState({
+    area: '',
+    brand: '',
+    price: '',
+    status: '',
+    type: '',
+    condition: ''
+  })
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
+    null
+  )
+
+  const filterOptions = [
+    {
+      label: 'Khu vực',
+      name: 'area',
+      options: ['Option 1', 'Option 2', 'Option 3']
+    },
+    {
+      label: 'Thương hiệu',
+      name: 'brand',
+      options: brands?.map((brand) => brand.brandName) || []
+    },
+    {
+      label: 'Giá',
+      name: 'price',
+      options: ['Option 1', 'Option 2', 'Option 3']
+    },
+    {
+      label: 'Trạng thái',
+      name: 'status',
+      options: ['Option 1', 'Option 2', 'Option 3']
+    },
+    {
+      label: 'Loại',
+      name: 'type',
+      options: types?.map((type) => type.typeName) || []
+    },
+    {
+      label: 'Tình trạng',
+      name: 'condition',
+      options: ['Option 1', 'Option 2', 'Option 3']
+    }
   ]
+
+  const handleFilterChange = (name: string, value: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value
+    }))
+  }
+
+  useEffect(() => {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer)
+    }
+
+    const timer = setTimeout(() => {
+      // Implement the search functionality here
+      console.log('Filters:', filters)
+    }, 5000)
+
+    setDebounceTimer(timer)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [filters])
 
   return (
     <Box
@@ -19,24 +83,25 @@ const FilterComponent = () => {
       my={2}
     >
       <Typography>Sắp xếp theo</Typography>
-      {filters.map((filter, index) => (
-        <Select
-          key={index}
-          displayEmpty
-          inputProps={{ 'aria-label': 'Without label' }}
-          defaultValue=""
+
+      {filterOptions.map((filter) => (
+        <TextField
+          key={filter.name}
+          select
+          sx={{
+            width: '150px'
+          }}
+          label={filter.label}
           variant="outlined"
-          sx={{ mx: 1 }}
+          value={filters[filter.name]}
+          onChange={(e) => handleFilterChange(filter.name, e.target.value)}
         >
-          <MenuItem value="" disabled>
-            {filter.label}
-          </MenuItem>
           {filter.options.map((option, idx) => (
             <MenuItem key={idx} value={option}>
               {option}
             </MenuItem>
           ))}
-        </Select>
+        </TextField>
       ))}
     </Box>
   )
