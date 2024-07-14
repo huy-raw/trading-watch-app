@@ -1,22 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import { Box, MenuItem, TextField, Typography } from '@mui/material'
+import { Box, MenuItem, TextField, Typography, Skeleton } from '@mui/material'
 import useSWR from 'swr'
 import { AppPath } from '@/services/utils'
 
-const FilterComponent = () => {
-  const { data: brands, isLoading } = useSWR(AppPath.GET_BRANDS)
-  const { data: types, isLoading: isLoadingTypes } = useSWR(AppPath.GET_TYPES)
-  const [filters, setFilters] = useState({
-    area: '',
-    brand: '',
-    price: '',
-    status: '',
-    type: '',
-    condition: ''
-  })
-  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
-    null
-  )
+interface FilterProps {
+  area: string
+  brand: string
+  price: string
+  status: string
+  type: string
+  condition: string
+  isLoading: boolean
+  onFilterChange: (name: string, value: string) => void
+}
+
+const FilterComponent = ({
+  isLoading,
+  area,
+  brand,
+  price,
+  status,
+  type,
+  condition,
+  onFilterChange
+}: FilterProps) => {
+  const { data: brands, isLoading: loadBrand } = useSWR(AppPath.GET_BRANDS)
+  const { data: types, isLoading: loadTypes } = useSWR(AppPath.GET_TYPES)
 
   const filterOptions = [
     {
@@ -52,28 +60,8 @@ const FilterComponent = () => {
   ]
 
   const handleFilterChange = (name: string, value: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value
-    }))
+    onFilterChange(name, value)
   }
-
-  useEffect(() => {
-    if (debounceTimer) {
-      clearTimeout(debounceTimer)
-    }
-
-    const timer = setTimeout(() => {
-      // Implement the search functionality here
-      console.log('Filters:', filters)
-    }, 5000)
-
-    setDebounceTimer(timer)
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [filters])
 
   return (
     <Box
@@ -93,14 +81,39 @@ const FilterComponent = () => {
           }}
           label={filter.label}
           variant="outlined"
-          value={filters[filter.name]}
+          value={(() => {
+            switch (filter.name) {
+              case 'area':
+                return area
+              case 'brand':
+                return brand
+              case 'price':
+                return price
+              case 'status':
+                return status
+              case 'type':
+                return type
+              case 'condition':
+                return condition
+              default:
+                return ''
+            }
+          })()}
           onChange={(e) => handleFilterChange(filter.name, e.target.value)}
         >
-          {filter.options.map((option, idx) => (
-            <MenuItem key={idx} value={option}>
-              {option}
-            </MenuItem>
-          ))}
+          {isLoading ||
+          (filter.name === 'brand' && loadBrand) ||
+          (filter.name === 'type' && loadTypes)
+            ? [1, 2, 3].map((idx) => (
+                <MenuItem key={idx} value="">
+                  <Skeleton width="100%" />
+                </MenuItem>
+              ))
+            : filter.options.map((option, idx) => (
+                <MenuItem key={idx} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
         </TextField>
       ))}
     </Box>

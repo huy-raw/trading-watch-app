@@ -5,6 +5,7 @@ export const AppPath = {
   REGISTER: '/auth/register',
   CREATE_APPRAISAL_REPORT: '/api/appraisal-report/create',
   CREATE_APPRAISAL_REQUEST: '/api/appraisal-requests/create',
+  CREATE_WATCH: '/api/watches',
   GET_APPRAISAL_REQUESTS: '/api/appraisal-requests/getAllList',
   GET_APPRAISAL_REQUESTS_BY_ID: '/api/appraisal-requests',
   GET_BRANDS: '/api/brands/getAll',
