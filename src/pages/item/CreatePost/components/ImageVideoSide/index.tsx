@@ -54,36 +54,40 @@ const ImageSide: FC<ImageSideProps> = ({
   onImageUpload
 }) => {
   const [images, setImages] = useState<string[]>(initialImages)
+  const [imageFiles, setImageFiles] = useState<File[]>([])
 
   useEffect(() => {
     onImageUpload(images)
   }, [images, onImageUpload])
 
-  const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
     if (files) {
-      const newImages = await Promise.all(
-        Array.from(files).map(async (file) => {
-          const reader = new FileReader()
-          return new Promise<string>((resolve) => {
-            reader.onload = () => resolve(reader.result as string)
-            reader.readAsDataURL(file)
-          })
-        })
+      const newImages = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
       )
       setImages((prevImages) => [...prevImages, ...newImages])
+      setImageFiles((prevFiles) => [...prevFiles, ...Array.from(files)])
     }
   }
 
   const handleRemoveImage = (index: number) => {
-    console.log(index)
     setImages((prevImages) => [
       ...prevImages.slice(0, index),
       ...prevImages.slice(index + 1)
     ])
+    setImageFiles((prevFiles) => [
+      ...prevFiles.slice(0, index),
+      ...prevFiles.slice(index + 1)
+    ])
   }
+
+  useEffect(() => {
+    return () => {
+      // Revoke object URLs to free memory
+      images.forEach((image) => URL.revokeObjectURL(image))
+    }
+  }, [images])
 
   return (
     <Box>

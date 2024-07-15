@@ -29,6 +29,7 @@ interface CreateWatch {
   watchTypeId: number
   address: string
   imageFiles: File[] | string[]
+  area: string
 }
 
 export const createWatchService = async (params: CreateWatch) => {
