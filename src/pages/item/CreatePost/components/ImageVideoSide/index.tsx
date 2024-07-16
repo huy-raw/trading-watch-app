@@ -12,8 +12,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 interface ImageSideProps {
-  initialImages?: string[]
-  onImageUpload: (urls: string[]) => void
+  handleUploadFile: (files: Blob[]) => void
 }
 
 const ImageList: FC<{
@@ -49,16 +48,8 @@ const ImageList: FC<{
   )
 }
 
-const ImageSide: FC<ImageSideProps> = ({
-  initialImages = [],
-  onImageUpload
-}) => {
-  const [images, setImages] = useState<string[]>(initialImages)
-  const [imageFiles, setImageFiles] = useState<File[]>([])
-
-  useEffect(() => {
-    onImageUpload(images)
-  }, [images, onImageUpload])
+const ImageSide: FC<ImageSideProps> = ({ handleUploadFile }) => {
+  const [images, setImages] = useState<string[]>([])
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
@@ -67,7 +58,7 @@ const ImageSide: FC<ImageSideProps> = ({
         URL.createObjectURL(file)
       )
       setImages((prevImages) => [...prevImages, ...newImages])
-      setImageFiles((prevFiles) => [...prevFiles, ...Array.from(files)])
+      handleUploadFile(Array.from(files))
     }
   }
 
@@ -76,15 +67,10 @@ const ImageSide: FC<ImageSideProps> = ({
       ...prevImages.slice(0, index),
       ...prevImages.slice(index + 1)
     ])
-    setImageFiles((prevFiles) => [
-      ...prevFiles.slice(0, index),
-      ...prevFiles.slice(index + 1)
-    ])
   }
 
   useEffect(() => {
     return () => {
-      // Revoke object URLs to free memory
       images.forEach((image) => URL.revokeObjectURL(image))
     }
   }, [images])

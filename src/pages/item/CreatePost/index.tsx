@@ -7,6 +7,7 @@ import { AppPath } from '@/services/utils'
 import ImageSide from './components/ImageVideoSide'
 import { createWatchService } from '@/services/watchService'
 import { Area, ProductStatus } from '@/common/type'
+import { toast } from 'react-toastify'
 
 const statusOptions = ['Đã sử dụng', 'Mới', 'Cũ']
 
@@ -16,14 +17,9 @@ const CreatePostPage = () => {
     : null
 
   const { data: brands, isLoading: isLoadingBrands } = useSWR(
-    AppPath.GET_BRANDS,
-    {
-      revalidateOnFocus: false
-    }
+    AppPath.GET_BRANDS
   )
-  const { data: types, isLoading: isLoadingTypes } = useSWR(AppPath.GET_TYPES, {
-    revalidateOnFocus: false
-  })
+  const { data: types, isLoading: isLoadingTypes } = useSWR(AppPath.GET_TYPES)
 
   const [formValues, setFormValues] = useState({
     postName: '',
@@ -57,21 +53,15 @@ const CreatePostPage = () => {
     }))
   }
 
-  const handleImageUpload = (urls: string[]) => {
+  const handleUploadImage = (images: Blob[]) => {
     setFormValues((prevValues) => ({
       ...prevValues,
-      images: urls
-    }))
-  }
-
-  const handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      status: e.target.value
+      images: images as unknown
     }))
   }
 
   const handleSubmit = async () => {
+    console.log(formValues)
     const data = await createWatchService({
       userId: user?.id,
       name: formValues.postName,
@@ -94,6 +84,10 @@ const CreatePostPage = () => {
       area: formValues.area,
       imageFiles: formValues.images
     })
+
+    if (data) {
+      toast.success('Đăng bài thành công')
+    }
   }
 
   return (
@@ -116,10 +110,7 @@ const CreatePostPage = () => {
       </Typography>
       <Grid container spacing={6} justifyContent={'center'}>
         <Grid item xs={12} md={5}>
-          <ImageSide
-            initialImages={formValues.images}
-            onImageUpload={handleImageUpload}
-          />
+          <ImageSide handleUploadFile={handleUploadImage} />
         </Grid>
         <Grid item xs={12} md={5}>
           <Box component={'div'}>
