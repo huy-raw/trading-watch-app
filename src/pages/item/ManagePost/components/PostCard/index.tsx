@@ -1,32 +1,39 @@
+import React from 'react'
 import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp'
-import Watch from '@/assets/watch.png'
-import { Typography, Box, Button } from '@mui/material'
-import { AlertPostMessage } from '../../type'
+import { Typography, Box, Button, Skeleton } from '@mui/material'
 import ReplaySharpIcon from '@mui/icons-material/ReplaySharp'
 import ArrowCircleUpSharpIcon from '@mui/icons-material/ArrowCircleUpSharp'
 import MoreHorizSharpIcon from '@mui/icons-material/MoreHorizSharp'
+import { AlertPostMessage } from '../../type'
 
 interface PostCardProps {
-  imageSrc: string
-  title: string
+  imageUrl: string
+  name: string
   price: number
   address: string
   typePost: string
   numberDayPost: number
   timePost: string
+  isLoading?: boolean
 }
 
-const ProductCard = ({
-  title,
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('vi-VN').format(price)
+}
+
+const ProductCard: React.FC<PostCardProps> = ({
+  imageUrl,
+  name,
   price,
   address,
   timePost,
   typePost,
-  numberDayPost
-}: PostCardProps) => {
+  numberDayPost,
+  isLoading
+}) => {
   return (
-    <Box bgcolor={'#FFFFFF'} border={'1px solid #D8D8D8'}>
-      <Box
+    <Box bgcolor={'#FFFFFF'} border={'1px solid #D8D8D8'} marginBottom={2}>
+      {/* <Box
         component={'div'}
         sx={{
           display: 'flex',
@@ -48,41 +55,66 @@ const ProductCard = ({
         >
           {AlertPostMessage.sucess.message}
         </Typography>
-      </Box>
+      </Box> */}
       <Box
         display={'flex'}
         sx={{
           padding: '20px'
         }}
       >
-        <Box>
-          <img src={Watch} />
-        </Box>
+        {isLoading ? (
+          <Skeleton variant="rectangular" width={100} height={100} />
+        ) : (
+          <Box>
+            <img src={imageUrl} alt={name} width={100} height={100} />
+          </Box>
+        )}
         <Box textAlign={'left'} paddingX={4}>
-          <Typography
-            sx={{
-              fontSize: '20px',
-              fontWeight: 600
-            }}
-          >
-            {title}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: '20px',
-              fontWeight: 600,
-              color: '#CA2C2C'
-            }}
-          >
-            {price}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: '14px'
-            }}
-          >
-            {address}
-          </Typography>
+          {isLoading ? (
+            <>
+              <Skeleton width="80%" />
+              <Skeleton width="60%" />
+              <Skeleton width="40%" />
+            </>
+          ) : (
+            <>
+              <Typography
+                sx={{
+                  fontSize: '20px',
+                  fontWeight: 600
+                }}
+              >
+                {name}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  color: '#CA2C2C'
+                }}
+              >
+                {formatPrice(price)}
+                <Typography
+                  component={'span'}
+                  sx={{
+                    fontSize: '16px',
+                    fontWeight: 400,
+                    marginLeft: '5px',
+                    fontStyle: 'italic'
+                  }}
+                >
+                  đ
+                </Typography>
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: '14px'
+                }}
+              >
+                {address}
+              </Typography>
+            </>
+          )}
         </Box>
       </Box>
       <Box
@@ -102,14 +134,18 @@ const ProductCard = ({
           }}
         >
           <Typography>Phương thức đăng tin</Typography>
-          <Typography
-            sx={{
-              fontWeight: 600,
-              fontSize: '14px'
-            }}
-          >
-            {typePost}
-          </Typography>
+          {isLoading ? (
+            <Skeleton width="80%" />
+          ) : (
+            <Typography
+              sx={{
+                fontWeight: 600,
+                fontSize: '14px'
+              }}
+            >
+              {typePost}
+            </Typography>
+          )}
         </Box>
         <Box
           sx={{
@@ -118,14 +154,18 @@ const ProductCard = ({
           }}
         >
           <Typography>Số ngày đăng tin</Typography>
-          <Typography
-            sx={{
-              fontWeight: 600,
-              fontSize: '14px'
-            }}
-          >
-            {numberDayPost} ngày
-          </Typography>
+          {isLoading ? (
+            <Skeleton width="80%" />
+          ) : (
+            <Typography
+              sx={{
+                fontWeight: 600,
+                fontSize: '14px'
+              }}
+            >
+              {numberDayPost} ngày
+            </Typography>
+          )}
         </Box>
         <Box
           sx={{
@@ -133,14 +173,18 @@ const ProductCard = ({
           }}
         >
           <Typography>Thời gian đăng tin</Typography>
-          <Typography
-            sx={{
-              fontWeight: 600,
-              fontSize: '14px'
-            }}
-          >
-            {timePost}
-          </Typography>
+          {isLoading ? (
+            <Skeleton width="80%" />
+          ) : (
+            <Typography
+              sx={{
+                fontWeight: 600,
+                fontSize: '14px'
+              }}
+            >
+              {timePost}
+            </Typography>
+          )}
         </Box>
       </Box>
       <Box
@@ -157,8 +201,13 @@ const ProductCard = ({
             fontWeight: 600,
             color: '#000',
             marginRight: '10px',
-            textTransform: 'none'
+            textTransform: 'none',
+            ':hover': {
+              color: '#000',
+              bgcolor: 'transparent'
+            }
           }}
+          disabled={isLoading}
         >
           <ReplaySharpIcon sx={{ marginRight: '5px' }} /> Gia Hạn Tin
         </Button>
@@ -170,10 +219,10 @@ const ProductCard = ({
               color: '#000',
               bgcolor: '#1BBE00'
             },
-
             textTransform: 'none',
             marginRight: '10px'
           }}
+          disabled={isLoading}
         >
           <ArrowCircleUpSharpIcon
             sx={{
@@ -186,6 +235,7 @@ const ProductCard = ({
           sx={{
             border: '1px solid #c1c1c1'
           }}
+          disabled={isLoading}
         >
           <MoreHorizSharpIcon />
         </Button>

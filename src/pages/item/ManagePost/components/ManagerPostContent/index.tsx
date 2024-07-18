@@ -1,20 +1,42 @@
+import React from 'react'
 import { Box } from '@mui/material'
 import ProductCard from '../PostCard'
 
-interface ManagerPostContentProps {}
+interface Product {
+  imageUrl: string
+  name: string
+  price: number
+  address: string
+  typePost: string
+  numberDayPost: number
+  timePost: string
+}
 
-const ManagerPostContent: React.FC<ManagerPostContentProps> = () => {
+interface ManagerPostContentProps {
+  products: Product[]
+  isLoading: boolean
+}
+
+const ManagerPostContent: React.FC<ManagerPostContentProps> = ({
+  products,
+  isLoading
+}) => {
   return (
     <Box marginTop={2} marginBottom={8}>
-      <ProductCard
-        imageSrc={''}
-        title={'Rolex Day Date 36 128235 Ombre Chocolate'}
-        price={1002990}
-        address="Phường Long Thạnh Mỹ (Quận 9 cũ), Thành phố Thủ Đức, Tp Hồ Chí Minh"
-        typePost={'Đăng tin thường(Miễn phí)'}
-        numberDayPost={60}
-        timePost={'16/05/2024 đến 15/07/2024'}
-      />
+      {!isLoading &&
+        products?.map((product, index) => (
+          <ProductCard
+            key={index}
+            imageUrl={product.imageUrl}
+            name={product.name}
+            price={product.price}
+            address={product.address}
+            typePost={product.typePost}
+            numberDayPost={product.numberDayPost}
+            timePost={product.timePost}
+            isLoading={isLoading}
+          />
+        ))}
     </Box>
   )
 }
