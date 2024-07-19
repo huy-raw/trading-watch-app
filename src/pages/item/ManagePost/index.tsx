@@ -25,13 +25,16 @@ const ManagePostPage = () => {
 
   const [tab, setTab] = useState(0)
   const [products, setProducts] = useState<Product[]>([])
+  const [isLoaded, setIsLoaded] = useState(false) // State to track loading completion
   const { data: posts, isLoading: isLoadingPost } = useSWR(
-    AppPath.GET_WATCH_BY_USER(user.id)
+    user ? AppPath.GET_WATCH_BY_USER(user.id) : null, // Fetch data conditionally
+    { refreshInterval: 30000 }
   )
 
   useEffect(() => {
     if (posts) {
       setProducts(posts)
+      setIsLoaded(false) // Set loading completion state
     }
   }, [posts])
 
@@ -43,12 +46,13 @@ const ManagePostPage = () => {
         sx={{
           backgroundColor: '#fff',
           paddingY: '40px',
-          marginTop: '60px'
+          marginTop: '60px',
+          minHeight: !isLoaded ? '61vh' : 'auto' // Apply minHeight conditionally
         }}
       >
         <ManagerPostTab
           name={user.name}
-          isLoading={isLoadingPost}
+          isLoading={isLoaded}
           currentTab={tab}
           setTab={setTab}
           showTotal={
@@ -67,7 +71,8 @@ const ManagePostPage = () => {
         disableGutters
         component={'div'}
         sx={{
-          marginTop: '20px'
+          marginTop: '20px',
+          minHeight: isLoaded ? '64vh' : 'auto' // Apply minHeight conditionally
         }}
       >
         {tab === 0 && (
@@ -75,7 +80,7 @@ const ManagePostPage = () => {
             products={products.filter((product) => {
               return product
             })}
-            isLoading={isLoadingPost}
+            isLoading={isLoaded}
           />
         )}
         {tab === 1 && (
@@ -83,7 +88,7 @@ const ManagePostPage = () => {
             products={products.filter((product) => {
               return product.status === 'HIDDEN' || product.status === 'SOLD'
             })}
-            isLoading={isLoadingPost}
+            isLoading={isLoaded}
           />
         )}
       </Container>

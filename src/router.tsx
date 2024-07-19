@@ -1,5 +1,5 @@
 import React from 'react'
-import { createBrowserRouter, Outlet } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import ItemDetailPage from './pages/item/ItemDetail'
 import CreatePostPage from './pages/item/CreatePost'
 import ManagePostPage from './pages/item/ManagePost'
@@ -14,9 +14,9 @@ import ViewAppraisalFormPage from './pages/appraiser/ViewAppraisalForm'
 import UserInfo from './pages/user/UserInfo'
 import AppraisalFormDetailPage from './pages/appraiser/AppraisalFormDetail'
 import ManageOrder from './pages/item/ManageOrder'
-import ScrollToTop from './components/ScollOnTop'
 import SearchPage from './pages/item/Search'
 import UserLayout from './components/Layout/UserLayout'
+import ScrollToTop from './components/ScollOnTop'
 
 const Root = () => (
   <UserLayout>
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
             }
           },
           {
-            path: 'product', // Add the search path
+            path: 'product',
             element: <SearchPage />,
             loader: async ({ request }) => {
               const url = new URL(request.url)
