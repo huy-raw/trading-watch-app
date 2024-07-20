@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { AppraisalStatus, AppraisalStatusVietnamese } from './type'
 
 export const convertYesNoToBoolean = (value: string) => {
@@ -34,12 +35,33 @@ function stringToColor(string: string) {
   return color
 }
 
-export function stringAvatar(name: string, padding = 0) {
+export const stringAvatar = (name: string, padding = 0) => {
+  if (!name)
+    return {
+      sx: {
+        bgcolor: '#000000',
+        padding: padding
+      },
+      children: 'N'
+    }
   return {
     sx: {
       bgcolor: stringToColor(name),
       padding: padding
     },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+    children: `${name?.split(' ')[0][0]}${name?.split(' ')[1][0]}`
+  }
+}
+
+export const formatDate = (date: string) => {
+  const now = moment()
+  const inputDate = moment(date)
+  const diffDays = now.diff(inputDate, 'days')
+  const diffMonths = now.diff(inputDate, 'months')
+
+  if (diffDays <= 30) {
+    return `${diffDays} ngày trước`
+  } else {
+    return `${diffMonths} tháng trước`
   }
 }

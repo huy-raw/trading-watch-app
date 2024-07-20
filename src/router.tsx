@@ -1,5 +1,4 @@
-import React from 'react'
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
+import { createBrowserRouter, Outlet } from 'react-router-dom'
 import ItemDetailPage from './pages/item/ItemDetail'
 import CreatePostPage from './pages/item/CreatePost'
 import ManagePostPage from './pages/item/ManagePost'
@@ -55,8 +54,12 @@ const router = createBrowserRouter([
             element: <SearchPage />,
             loader: async ({ request }) => {
               const url = new URL(request.url)
-              const query = url.searchParams.get('keyword')
-              return { query }
+              const keyword = url.searchParams.get('keyword') || ''
+              const brand = url.searchParams.get('brand') || ''
+              const type = url.searchParams.get('type') || ''
+              const service = url.searchParams.get('service') || ''
+
+              return { query: keyword, brand, type, service }
             }
           }
         ]

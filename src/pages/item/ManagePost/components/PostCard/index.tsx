@@ -1,10 +1,9 @@
 import React from 'react'
-import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp'
 import { Typography, Box, Button, Skeleton } from '@mui/material'
 import ReplaySharpIcon from '@mui/icons-material/ReplaySharp'
 import ArrowCircleUpSharpIcon from '@mui/icons-material/ArrowCircleUpSharp'
 import MoreHorizSharpIcon from '@mui/icons-material/MoreHorizSharp'
-import { AlertPostMessage } from '../../type'
+import moment from 'moment'
 
 interface PostCardProps {
   imageUrl: string
@@ -12,13 +11,10 @@ interface PostCardProps {
   price: number
   address: string
   typePost: string
-  numberDayPost: number
-  timePost: string
+  numberDatePost: number
+  createDate?: string
   isLoading?: boolean
-}
-
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('vi-VN').format(price)
+  mutate?: (key?: string) => void
 }
 
 const ProductCard: React.FC<PostCardProps> = ({
@@ -26,9 +22,9 @@ const ProductCard: React.FC<PostCardProps> = ({
   name,
   price,
   address,
-  timePost,
+  createDate,
   typePost,
-  numberDayPost,
+  numberDatePost,
   isLoading
 }) => {
   return (
@@ -93,18 +89,10 @@ const ProductCard: React.FC<PostCardProps> = ({
                   color: '#CA2C2C'
                 }}
               >
-                {formatPrice(price)}
-                <Typography
-                  component={'span'}
-                  sx={{
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    marginLeft: '5px',
-                    fontStyle: 'italic'
-                  }}
-                >
-                  đ
-                </Typography>
+                {price.toLocaleString('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND'
+                })}
               </Typography>
               <Typography
                 sx={{
@@ -163,7 +151,7 @@ const ProductCard: React.FC<PostCardProps> = ({
                 fontSize: '14px'
               }}
             >
-              {numberDayPost} ngày
+              {numberDatePost} ngày
             </Typography>
           )}
         </Box>
@@ -182,7 +170,7 @@ const ProductCard: React.FC<PostCardProps> = ({
                 fontSize: '14px'
               }}
             >
-              {timePost}
+              {moment(createDate).format('DD/MM/YYYY')}
             </Typography>
           )}
         </Box>

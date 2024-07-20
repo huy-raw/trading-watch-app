@@ -53,8 +53,7 @@ const ManagerPostTab: React.FC<ManagerPostTabProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            p: 4,
-            bgcolor: 'background.paper'
+            p: 4
           }}
         >
           <Box display="flex" alignItems="center" flex="1">

@@ -147,15 +147,10 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading }) => {
                     component="div"
                     sx={{ fontWeight: 'bold', color: 'red' }}
                   >
-                    {item.totalPrice}{' '}
-                    <Typography
-                      component="span"
-                      sx={{
-                        textDecoration: 'italic'
-                      }}
-                    >
-                      đ
-                    </Typography>
+                    {item.totalPrice.toLocaleString('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND'
+                    })}
                   </Typography>
                   <Typography
                     variant="body2"

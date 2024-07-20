@@ -14,8 +14,7 @@ export interface Product {
   size: string
   status: 'SHOW' | 'HIDDEN' | 'SOLD'
   typePost: string
-  numberDayPost: number
-  timePost: string
+  numberDatePost: number
 }
 
 const ManagePostPage = () => {
@@ -26,7 +25,7 @@ const ManagePostPage = () => {
   const [tab, setTab] = useState(0)
   const [products, setProducts] = useState<Product[]>([])
   const [isLoaded, setIsLoaded] = useState(false) // State to track loading completion
-  const { data: posts, isLoading: isLoadingPost } = useSWR(
+  const { data: posts, mutate } = useSWR(
     user ? AppPath.GET_WATCH_BY_USER(user.id) : null, // Fetch data conditionally
     { refreshInterval: 30000 }
   )
@@ -45,9 +44,8 @@ const ManagePostPage = () => {
         component={'div'}
         sx={{
           backgroundColor: '#fff',
-          paddingY: '40px',
-          marginTop: '60px',
-          minHeight: !isLoaded ? '61vh' : 'auto' // Apply minHeight conditionally
+          paddingY: '10px',
+          marginTop: '60px'
         }}
       >
         <ManagerPostTab
@@ -71,8 +69,8 @@ const ManagePostPage = () => {
         disableGutters
         component={'div'}
         sx={{
-          marginTop: '20px',
-          minHeight: isLoaded ? '64vh' : 'auto' // Apply minHeight conditionally
+          marginTop: '10px',
+          minHeight: '50vh'
         }}
       >
         {tab === 0 && (
@@ -81,6 +79,7 @@ const ManagePostPage = () => {
               return product
             })}
             isLoading={isLoaded}
+            mutate={mutate}
           />
         )}
         {tab === 1 && (
@@ -89,6 +88,7 @@ const ManagePostPage = () => {
               return product.status === 'HIDDEN' || product.status === 'SOLD'
             })}
             isLoading={isLoaded}
+            mutate={mutate}
           />
         )}
       </Container>

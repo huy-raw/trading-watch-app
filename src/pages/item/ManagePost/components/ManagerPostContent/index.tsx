@@ -8,18 +8,20 @@ interface Product {
   price: number
   address: string
   typePost: string
-  numberDayPost: number
-  timePost: string
+  numberDatePost: number
+  createDate: string
 }
 
 interface ManagerPostContentProps {
   products: Product[]
   isLoading: boolean
+  mutate?: (key?: string) => void
 }
 
 const ManagerPostContent: React.FC<ManagerPostContentProps> = ({
   products,
-  isLoading
+  isLoading,
+  mutate
 }) => {
   return (
     <Box marginTop={2} marginBottom={8}>
@@ -32,9 +34,10 @@ const ManagerPostContent: React.FC<ManagerPostContentProps> = ({
             price={product.price}
             address={product.address}
             typePost={product.typePost}
-            numberDayPost={product.numberDayPost}
-            timePost={product.timePost}
+            numberDatePost={product.numberDatePost}
+            createDate={product.createDate}
             isLoading={isLoading}
+            mutate={mutate}
           />
         ))}
     </Box>

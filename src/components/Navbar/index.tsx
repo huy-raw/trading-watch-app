@@ -12,7 +12,7 @@ import Logo from '@/assets/app-logo.png'
 import SearchIcon from '@mui/icons-material/Search'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswerOutlined'
 import ArticleIcon from '@mui/icons-material/ArticleOutlined'
-import NotificationsIcon from '@mui/icons-material/Notifications'
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
 import { AuthenticateType } from '@/pages/authentication/Authenticate/type'
 import UserMenu from '../UserMenu'
@@ -151,7 +151,7 @@ const Navbar = () => {
         </Box>
         <Box>
           <Button color="inherit">
-            <NotificationsIcon fontSize="large" />
+            <NotificationsNoneOutlinedIcon fontSize="large" />
           </Button>
           <Button color="inherit">
             <QuestionAnswerIcon fontSize="large" />
@@ -167,6 +167,7 @@ const Navbar = () => {
                 <Avatar {...stringAvatar(user.name)} />
                 <Typography
                   marginLeft={2}
+                  marginRight={1}
                   sx={{
                     textTransform: 'none'
                   }}
