@@ -14,7 +14,7 @@ import PaymentMethod from './components/PaymentMethod'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
 import { AppPath } from '@/services/utils'
-import { Order } from '../ManageOrder/type'
+import { Order } from '../ManageBuyOrder/type'
 
 interface User {
   address: string | null
@@ -102,7 +102,7 @@ const PaymentPage = () => {
         <WatchInfo
           seller={order?.seller.name}
           itemName={order?.watch.name}
-          itemType="Đồng hồ"
+          itemType={order?.watch.type ?? ''}
           itemPrice={order?.watch?.price?.toString()}
           itemLocation={order?.watch.address}
           itemImage={order?.watch.imageUrl}

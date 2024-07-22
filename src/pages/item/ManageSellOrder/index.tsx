@@ -1,7 +1,7 @@
 import { Container } from '@mui/material'
 import ManageOrderTab from './components/ManageOrderTab'
 
-const ManageOrder = () => {
+const ManageSellOrder = () => {
   return (
     <Container
       disableGutters
@@ -16,4 +16,4 @@ const ManageOrder = () => {
   )
 }
 
-export default ManageOrder
+export default ManageSellOrder

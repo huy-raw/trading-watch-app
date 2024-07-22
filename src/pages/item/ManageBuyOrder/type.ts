@@ -25,6 +25,7 @@ export interface Watch {
   startDate: string | null
   status: string | null
   typePost: string | null
+  type: string | null
 }
 
 // Updated Order Interface

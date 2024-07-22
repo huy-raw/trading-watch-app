@@ -12,7 +12,6 @@ import {
 import OrderItem from '../OrderItem'
 import useSWR from 'swr'
 import { AppPath } from '@/services/utils'
-import { Role } from '@/common/type'
 import { Order } from '../../type'
 
 const StyledTab = styled(Tab)(({ theme }) => ({
@@ -63,35 +62,15 @@ const ManageOrderTab = () => {
     user ? AppPath.GET_BUYER_ORDERS(user.id) : null
   )
 
-  const { data: sellerOrders, isLoading: isLoadingSeller } = useSWR(
-    user ? AppPath.GET_SELLER_ORDERS(user.id) : null
-  )
-
   useEffect(() => {
-    if (buyerOrders || sellerOrders) {
-      const combinedOrders: Order[] = []
-
-      if (buyerOrders) {
-        combinedOrders.push(
-          ...buyerOrders.map((order) => ({ ...order, role: Role.BUYER }))
-        )
-      }
-
-      if (sellerOrders) {
-        combinedOrders.push(
-          ...sellerOrders.map((order) => ({ ...order, role: Role.SELLER }))
-        )
-      }
-
-      setOrders(combinedOrders)
+    if (buyerOrders) {
+      setOrders(buyerOrders)
     }
-  }, [buyerOrders, sellerOrders])
+  }, [buyerOrders])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-
-  const isLoading = isLoadingBuyer || isLoadingSeller
 
   return (
     <div
@@ -126,15 +105,15 @@ const ManageOrderTab = () => {
             aria-label="basic tabs example"
           >
             <StyledTab
-              label={`Tất cả (${isLoading ? '...' : orders.length})`}
+              label={`Tất cả (${isLoadingBuyer ? '...' : orders.length})`}
               {...a11yProps(0)}
             />
             <StyledTab
-              label={`Đợi duyệt (${isLoading ? '...' : orders.filter((order) => order.status === 'wait').length})`}
+              label={`Đợi duyệt (${isLoadingBuyer ? '...' : orders.filter((order) => order.status === 'wait').length})`}
               {...a11yProps(1)}
             />
             <StyledTab
-              label={`Đã duyệt (${isLoading ? '...' : orders.filter((order) => order.status === 'approved').length})`}
+              label={`Đã duyệt (${isLoadingBuyer ? '...' : orders.filter((order) => order.status === 'approved').length})`}
               {...a11yProps(2)}
             />
             <StyledTab label="Giao dịch trực tiếp (0)" {...a11yProps(3)} />
@@ -149,25 +128,25 @@ const ManageOrderTab = () => {
           backgroundColor: '#fff'
         }}
       >
-        {isLoading ? (
+        {isLoadingBuyer ? (
           <Box p={3}>
             <Skeleton variant="rectangular" width="100%" height={300} />
           </Box>
         ) : (
           <>
             <TabPanel value={value} index={0}>
-              <OrderItem data={orders} isLoading={isLoading} />
+              <OrderItem data={orders} isLoading={isLoadingBuyer} />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <OrderItem
                 data={orders.filter((order) => order.status === 'wait')}
-                isLoading={isLoading}
+                isLoading={isLoadingBuyer}
               />
             </TabPanel>
             <TabPanel value={value} index={2}>
               <OrderItem
                 data={orders.filter((order) => order.status === 'approved')}
-                isLoading={isLoading}
+                isLoading={isLoadingBuyer}
               />
             </TabPanel>
             <TabPanel value={value} index={3}>
