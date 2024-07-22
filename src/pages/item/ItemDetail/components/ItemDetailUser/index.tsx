@@ -9,8 +9,8 @@ import {
 } from '@mui/material'
 import PhoneIcon from '@mui/icons-material/Phone'
 import ChatIcon from '@mui/icons-material/Chat'
-import { useLoaderData, useNavigate } from 'react-router-dom'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { useLoaderData, useNavigate } from 'react-router-dom'
 import { createOrder } from '@/services/orderService'
 import { useState } from 'react'
 import ConfirmDialog from '@/components/ConfirmDiaglog'
@@ -41,7 +41,7 @@ const ItemDetailUser = ({
   const { id } = data as { id: string }
 
   const handleCreateOrder = async () => {
-    const res = await createOrder({ watchId: Number(id), userId: user.id })
+    const res = await createOrder({ watchId: Number(id), userId: user?.id })
     if (res) {
       setIsOpen(false)
       toast.success('Đặt hàng thành công', {
@@ -50,6 +50,10 @@ const ItemDetailUser = ({
         }
       })
     }
+  }
+
+  const handleOpenLogin = () => {
+    navigate('/authenticate/login')
   }
 
   return (
@@ -61,9 +65,7 @@ const ItemDetailUser = ({
           ) : (
             <Avatar
               alt="Thắng Nguyễn Store"
-              src={
-                sellerAvatar ? sellerAvatar : 'https://via.placeholder.com/100'
-              } // Replace with actual image URL
+              src={sellerAvatar || 'https://via.placeholder.com/100'} // Replace with actual image URL
               sx={{ width: 80, height: 80 }}
             />
           )}
@@ -126,6 +128,23 @@ const ItemDetailUser = ({
         <Grid item xs={12}>
           {loading ? (
             <Skeleton variant="rectangular" width="100%" height={40} />
+          ) : !user ? (
+            <Button
+              variant="outlined"
+              fullWidth
+              onClick={handleOpenLogin}
+              sx={{
+                textTransform: 'none',
+                fontSize: '14px',
+                bgcolor: 'primary.main',
+                color: 'white',
+                '&:hover': {
+                  bgcolor: 'primary.dark'
+                }
+              }}
+            >
+              Đăng nhập để đặt hàng
+            </Button>
           ) : sellerId !== user.id ? (
             <>
               <Button
