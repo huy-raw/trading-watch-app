@@ -7,8 +7,9 @@ const ManageBuyOrder = () => {
       disableGutters
       component={'div'}
       sx={{
-        paddingY: '40px',
-        marginTop: '20px'
+        marginTop: 12,
+        marginBottom: 4,
+        minHeight: 'calc(100vh - 340px)'
       }}
     >
       <ManageOrderTab />
