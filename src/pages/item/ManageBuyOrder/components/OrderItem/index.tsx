@@ -228,12 +228,14 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading }) => {
           marginTop: 2
         }}
       >
-        <Pagination
-          count={Math.ceil(data.length / ITEMS_PER_PAGE)}
-          page={page}
-          onChange={handlePageChange}
-          color="primary"
-        />
+        {page > 1 && (
+          <Pagination
+            count={Math.ceil(data.length / ITEMS_PER_PAGE)}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        )}
       </Box>
     </Box>
   )
