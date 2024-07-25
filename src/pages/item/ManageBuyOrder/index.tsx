@@ -9,7 +9,8 @@ const ManageBuyOrder = () => {
       sx={{
         marginTop: 12,
         marginBottom: 4,
-        minHeight: 'calc(100vh - 340px)'
+        minHeight: 'calc(100vh - 340px)',
+        display: 'flex'
       }}
     >
       <ManageOrderTab />
