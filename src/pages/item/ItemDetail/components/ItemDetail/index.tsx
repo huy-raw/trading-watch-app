@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Container,
   Typography,
@@ -39,8 +39,9 @@ interface IWatch {
 
 interface ItemDetailProps {
   watch: IWatch
-  images: []
+  images: string[]
   isLoading?: boolean
+  appraisalCertificateUrl?: string
 }
 
 const ItemDetail: React.FC<ItemDetailProps> = ({
@@ -54,7 +55,7 @@ const ItemDetail: React.FC<ItemDetailProps> = ({
         {isLoading ? (
           <Skeleton variant="rectangular" width={210} height={118} />
         ) : (
-          <ItemImageList images={images} />
+          <ItemImageList images={[...images]} loading={isLoading} />
         )}
         <Grid item xs={12} md={12}>
           <Box
