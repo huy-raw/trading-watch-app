@@ -2,19 +2,16 @@ import React from 'react'
 import { Box, Button, Divider, Link, Typography, Skeleton } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import Zalo from '@/assets/logoZalo.png'
-import Momo from '@/assets/logoMomo.png'
+import vnpay from '@/assets/vnpaylogo.png'
 import thanhtoantructiep from '@/assets/thanhtoantructiep.png'
 
 const methods = [
-  { name: 'ZaloPay', image: Zalo },
-  { name: 'Momo', image: Momo },
-  { name: 'ThanhToanTrucTiep', image: thanhtoantructiep }
+  { name: 'ThanhToanTrucTiep', image: thanhtoantructiep },
+  { name: 'VNPay', image: vnpay }
 ]
 
 interface PaymentMethodProps {
   price: number
-  extraPrice: number
   paymentMethod: string
   handleChangeMethod: (method: string) => void
   isLoading?: boolean
@@ -22,11 +19,12 @@ interface PaymentMethodProps {
 
 const PaymentMethod: React.FC<PaymentMethodProps> = ({
   price,
-  extraPrice,
+
   paymentMethod,
   handleChangeMethod,
   isLoading
 }) => {
+  const extraPrice = price * 0.05
   const total = price + extraPrice
   const navigate = useNavigate()
 
@@ -46,6 +44,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
       m={2}
       component={'div'}
       bgcolor={'#FFFFFF'}
+      paddingX={4}
     >
       <Box
         component={'div'}
@@ -85,8 +84,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
                   flexDirection={'column'}
                   alignItems={'center'}
                   padding={4}
-                  width={160}
-                  height={150}
+                  width={200}
+                  height={200}
                   marginX={2}
                   border={
                     paymentMethod === item.name
@@ -109,6 +108,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
                     }}
                     src={item.image}
                     alt={item.name}
+                    width={100}
+                    height={100}
                   />
                   {item.name === 'ThanhToanTrucTiep' && (
                     <Typography variant="body2" sx={{ mt: 2 }}>
@@ -123,7 +124,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
           width={'full'}
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end'
+            justifyContent: 'flex-end',
+            margin: 2
           }}
         >
           <Box

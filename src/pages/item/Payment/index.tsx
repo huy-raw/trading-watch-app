@@ -109,8 +109,7 @@ const PaymentPage = () => {
       </Box>
       <Box>
         <PaymentMethod
-          price={100}
-          extraPrice={1231231231213}
+          price={order?.watch.price ?? 0}
           paymentMethod={paymentMethod}
           handleChangeMethod={setPaymentMethod}
         />
