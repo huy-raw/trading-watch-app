@@ -68,7 +68,7 @@ const ItemDetail: React.FC<ItemDetailProps> = ({
               <Skeleton variant="text" width="60%" height={40} />
             ) : (
               <Typography variant="h5" color={'#484848'} fontWeight={'bold'}>
-                {watch.name}
+                {watch?.name}
               </Typography>
             )}
             {isLoading ? (

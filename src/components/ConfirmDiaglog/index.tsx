@@ -6,8 +6,7 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
-  CircularProgress,
-  Box
+  CircularProgress
 } from '@mui/material'
 
 interface ConfirmDialogProps {
@@ -33,11 +32,6 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       onClose={!isLoading ? onClose : undefined} // Prevent close while loading
       sx={{
         boxShadow: 'none'
-      }}
-      BackdropProps={{
-        sx: {
-          backgroundColor: 'rgba(32, 29, 29, 0.26)'
-        }
       }}
     >
       <DialogTitle>{title}</DialogTitle>
