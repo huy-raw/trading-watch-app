@@ -35,12 +35,14 @@ export const AppPath = {
     if (keyword) url += `&keyword=${keyword}`
     if (minPrice !== undefined) url += `&minPrice=${minPrice}`
     if (maxPrice !== undefined) url += `&maxPrice=${maxPrice}`
-    if (area) url += `&area=${area}`
-    if (type) url += `&type=${type}`
-    if (brand) url += `&brand=${brand}`
-    if (watchStatus) url += `&watchStatus=${watchStatus}`
-    if (status) url += `&status=${status}`
-    if (accessories) url += `&accessories=${accessories}`
+    if (area && area.length > 0) url += `&area=${area.join(',')}`
+    if (type && type.length > 0) url += `&type=${type.join(',')}`
+    if (brand && brand.length > 0) url += `&brand=${brand.join(',')}`
+    if (watchStatus && watchStatus.length > 0)
+      url += `&watchStatus=${watchStatus.join(',')}`
+    if (status && status.length > 0) url += `&status=${status.join(',')}`
+    if (accessories && accessories.length > 0)
+      url += `&accessories=${accessories.join(',')}`
     if (name) url += `&name=${name}`
 
     return url
