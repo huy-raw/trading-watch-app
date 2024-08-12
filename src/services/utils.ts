@@ -59,7 +59,7 @@ export const AppPath = {
     `/api/appraisal-requests/findByUser?userId=${id}&page=${page}&size=${size}`,
   GET_FEEDBACKS_BY_SELLER_ID: (id) => `/api/feedbacks/seller/${id}`,
   GET_CONVERSATION: (id) => `/api/conversations/user/${id}`,
-  GET_MESSAGES: (id) => `/api/messages/${id}/getMessages`
+  GET_MESSAGES: (id) => `/api/messages/${id}/messages`
 }
 
 export const fetcher = (url) => axiosClient.get(url).then((res) => res.data)

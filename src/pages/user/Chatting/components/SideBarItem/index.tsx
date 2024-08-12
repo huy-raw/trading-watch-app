@@ -4,7 +4,7 @@ import { ConversationType } from '../../type'
 interface SideBarItemProps {
   item: ConversationType
   active?: boolean
-  onClick: (id) => void
+  onClick: (item) => void
 }
 
 const SideBarItem = ({ item, active, onClick }: SideBarItemProps) => {
@@ -24,7 +24,7 @@ const SideBarItem = ({ item, active, onClick }: SideBarItemProps) => {
         }
       }}
       onClick={() => {
-        onClick(item.conversationId)
+        onClick(item)
       }}
     >
       <Avatar

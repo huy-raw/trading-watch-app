@@ -21,7 +21,7 @@ const ChatInput = (props: ChatInputProps) => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        padding: (theme) => theme.spacing(1),
+        padding: 2,
         backgroundColor: 'white'
       }}
     >

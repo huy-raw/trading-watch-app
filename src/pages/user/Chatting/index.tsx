@@ -16,9 +16,8 @@ const ChattingPage = () => {
   const [filteredConversations, setFilteredConversations] = useState<
     ConversationType[]
   >([])
-  const [selectedConversation, setSelectedConversation] = useState<
-    number | null
-  >(null)
+  const [selectedConversation, setSelectedConversation] =
+    useState<ConversationType | null>(null)
   const [search, setSearch] = useState<string>('')
 
   const debouncedSearch = useDebounce(search, 150)
@@ -27,11 +26,12 @@ const ChattingPage = () => {
     onSuccess: (data) => {
       setConversations(data)
       setFilteredConversations(data)
+      setSelectedConversation(data[0])
     }
   })
 
-  const handleSelectConversation = (conversationID: number) => {
-    setSelectedConversation(conversationID)
+  const handleSelectConversation = (conversation: ConversationType) => {
+    setSelectedConversation(conversation)
   }
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,10 +69,14 @@ const ChattingPage = () => {
         handleSearch={handleSearch}
         search={search}
         loading={isLoading}
-        active={selectedConversation}
+        active={selectedConversation?.conversationId}
         onClick={handleSelectConversation}
       />
-      <ChatContent conversationId={selectedConversation} />
+      <ChatContent
+        conversation={selectedConversation}
+        loading={isLoading}
+        userId={user.id}
+      />
     </Container>
   )
 }

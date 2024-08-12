@@ -10,4 +10,16 @@ export interface ConversationType {
   recipientId: number
   recipientName: string
   recipientAvatar: string
+  roleRecipient: 'User' | 'Appraiser'
+  watchPrice: number
+}
+
+export interface Message {
+  id: number
+  messageText: string
+  senderAvatar?: string
+  senderId: number
+  senderName: string
+  sentAt: string
+  status: string
 }

@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search'
 interface ChattingSideBarProps {
   item: ConversationType[]
   active?: number | null
-  onClick: (id: number) => void
+  onClick: (item: ConversationType) => void
   loading?: boolean
   search?: string
   handleSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -68,8 +68,9 @@ const ChattingSideBar = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        bgcolor: 'background.default',
-        minWidth: 360
+        bgcolor: '#fff',
+        minWidth: 360,
+        borderRight: '1px solid #f0f0f0'
       }}
     >
       <Box
@@ -131,7 +132,7 @@ const ChattingSideBar = ({
                 key={index}
                 item={item}
                 active={item.conversationId === active}
-                onClick={() => onClick(item.conversationId)}
+                onClick={() => onClick(item)}
               />
             ))}
       </Box>
