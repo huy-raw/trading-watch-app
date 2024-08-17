@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Button, Divider, Link, Typography, Skeleton } from '@mui/material'
 import vnpay from '@/assets/vnpaylogo.png'
 import thanhtoantructiep from '@/assets/thanhtoantructiep.png'
@@ -28,9 +28,28 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
   orderId = 0, // Provide a default value for orderId
   isSubmitting
 }) => {
-  const extraPrice = price * 0.05
-  const total = price + extraPrice
+  const [currentPrice, setCurrentPrice] = React.useState(price)
+  const [extraPrice, setExtraPrice] = React.useState(0)
+  const [total, setTotal] = React.useState(currentPrice + extraPrice)
+
   const [open, setOpen] = React.useState(false)
+
+  useEffect(() => {
+    if (paymentMethod === 'VNPay') {
+      setExtraPrice(0.05 * currentPrice)
+      setTotal(currentPrice + 0.05 * currentPrice)
+    }
+  }, [paymentMethod, currentPrice])
+
+  useEffect(() => {
+    if (paymentMethod === 'ThanhToanTrucTiep') {
+      setCurrentPrice(0)
+      setExtraPrice(0)
+      setTotal(0)
+    } else {
+      setCurrentPrice(price)
+    }
+  }, [paymentMethod, price])
 
   return (
     <Box
@@ -153,7 +172,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
                     Tổng tiền
                   </Typography>
                   <Typography marginRight={2} fontWeight={'bold'}>
-                    {price.toLocaleString('vi-VN', {
+                    {currentPrice.toLocaleString('vi-VN', {
                       style: 'currency',
                       currency: 'VND'
                     })}
