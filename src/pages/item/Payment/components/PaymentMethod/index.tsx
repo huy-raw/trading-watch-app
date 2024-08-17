@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Button, Divider, Link, Typography, Skeleton } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 import vnpay from '@/assets/vnpaylogo.png'
 import thanhtoantructiep from '@/assets/thanhtoantructiep.png'
 import ConfirmDiaglog from '@/components/ConfirmDiaglog'
