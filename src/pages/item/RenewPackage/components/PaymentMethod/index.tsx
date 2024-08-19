@@ -7,7 +7,6 @@ import {
   RadioGroup
 } from '@mui/material'
 import vnpay from '@/assets/vnpaylogo.png'
-import thanhtoantructiep from '@/assets/thanhtoantructiep.png'
 
 interface PaymentMethodProps {
   selectedMethod: string

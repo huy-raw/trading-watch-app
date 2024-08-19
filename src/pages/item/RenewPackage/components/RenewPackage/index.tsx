@@ -1,25 +1,38 @@
+import { AppPath } from '@/services/utils'
 import {
   Box,
   Typography,
   Radio,
   FormControlLabel,
-  RadioGroup
+  RadioGroup,
+  Skeleton
 } from '@mui/material'
+import { useState } from 'react'
+import useSWR from 'swr'
+
+export interface IRenewPackage {
+  id: number
+  name: string
+  price: number
+  duration: number
+}
 
 interface RenewPackageProps {
-  selectedPackage: string
-  setSelectedPackage: (method: string) => void
+  selectedPackage?: IRenewPackage
+  setSelectedPackage: (pakage: IRenewPackage) => void
 }
 
 const RenewPackage = ({
   selectedPackage,
   setSelectedPackage
 }: RenewPackageProps) => {
-  const packages = [
-    { value: '7days', label: 'Đăng tin 7 ngày', price: 50000 },
-    { value: '14days', label: 'Đăng tin 14 ngày', price: 145000 },
-    { value: '30days', label: 'Đăng tin 30 ngày', price: 250000 }
-  ]
+  const [packages, setPackages] = useState<IRenewPackage[]>([])
+
+  const { isLoading } = useSWR(AppPath.GET_RENEWAL_PACKAGE, {
+    onSuccess: (data) => {
+      setPackages(data)
+    }
+  })
 
   return (
     <Box
@@ -35,7 +48,12 @@ const RenewPackage = ({
       </Typography>
       <RadioGroup
         value={selectedPackage}
-        onChange={(e) => setSelectedPackage(e.target.value)}
+        onChange={(e) => {
+          const selected = packages.find(
+            (pkg) => pkg.id === parseInt(e.target.value)
+          )
+          if (selected) setSelectedPackage(selected)
+        }}
         sx={{
           display: 'flex',
           flexDirection: 'row',
@@ -43,19 +61,10 @@ const RenewPackage = ({
           justifyContent: 'space-between'
         }}
       >
-        {packages.map((pkg) => (
-          <FormControlLabel
-            key={pkg.value}
-            value={pkg.price}
-            control={
-              <Radio
-                sx={{
-                  display: 'none'
-                }}
-              />
-            }
-            label={
+        {isLoading && packages.length === 0
+          ? Array.from({ length: 3 }).map((_, index) => (
               <Box
+                key={index}
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -63,24 +72,53 @@ const RenewPackage = ({
                   padding: '10px 40px',
                   borderRadius: '8px',
                   border: '1px solid',
-                  borderColor:
-                    selectedPackage === pkg.value
-                      ? 'primary.main'
-                      : 'rgba(0, 0, 0, 0.23)',
-                  backgroundColor:
-                    selectedPackage === pkg.value ? '#f9f9f9' : '#ffffff',
+                  borderColor: 'rgba(0, 0, 0, 0.23)',
+                  backgroundColor: '#ffffff',
                   cursor: 'pointer'
                 }}
               >
-                <Typography sx={{ fontWeight: 600 }}>{pkg.label}</Typography>
-                <Typography sx={{ color: 'green', fontWeight: 500 }}>
-                  {pkg.price.toLocaleString()}đ
-                </Typography>
+                <Skeleton variant="text" width={100} height={20} />
+                <Skeleton variant="text" width={60} height={20} />
               </Box>
-            }
-            sx={{ margin: 0 }}
-          />
-        ))}
+            ))
+          : packages.map((pkg) => (
+              <FormControlLabel
+                key={pkg.id}
+                value={pkg.id}
+                control={
+                  <Radio
+                    sx={{
+                      display: 'none'
+                    }}
+                  />
+                }
+                label={
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      padding: '10px 40px',
+                      borderRadius: '8px',
+                      border: '1px solid',
+                      borderColor:
+                        selectedPackage?.id == pkg.id
+                          ? 'primary.main'
+                          : 'rgba(0, 0, 0, 0.23)',
+                      backgroundColor:
+                        selectedPackage?.id == pkg.id ? '#f9f9f9' : '#ffffff',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 600 }}>{pkg.name}</Typography>
+                    <Typography sx={{ color: 'green', fontWeight: 500 }}>
+                      {pkg.price.toLocaleString()}đ
+                    </Typography>
+                  </Box>
+                }
+                sx={{ margin: 0 }}
+              />
+            ))}
       </RadioGroup>
     </Box>
   )
