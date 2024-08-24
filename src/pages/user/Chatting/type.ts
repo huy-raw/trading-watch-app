@@ -15,11 +15,24 @@ export interface ConversationType {
 }
 
 export interface Message {
-  id: number
+  id?: number
   messageText: string
   senderAvatar?: string
   senderId: number
   senderName: string
   sentAt: string
-  status: string
+  status?: string
+  timestamp: string
+}
+
+export interface MessageResponse {
+  id: number
+  content: string
+  conversationId: number | null
+  recipientId: number | null
+  recipientName: string | null
+  senderId: number
+  senderName: string
+  sentAt: string
+  status?: string
 }
