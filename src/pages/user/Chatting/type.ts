@@ -20,19 +20,17 @@ export interface Message {
   senderAvatar?: string
   senderId: number
   senderName: string
-  sentAt: string
+  recipientId?: number
+  recipientName?: string
+  recipientAvatar?: string
+  sentAt?: string
   status?: string
-  timestamp: string
+  timestamp?: string
 }
 
-export interface MessageResponse {
-  id: number
-  content: string
+export interface MessageRequest {
+  messageText: string
   conversationId: number | null
   recipientId: number | null
-  recipientName: string | null
   senderId: number
-  senderName: string
-  sentAt: string
-  status?: string
 }

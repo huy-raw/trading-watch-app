@@ -1,6 +1,6 @@
 import { Box, Avatar, Typography, Skeleton } from '@mui/material'
 import moment from 'moment'
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { Message } from '../../type'
 
 interface ChatMessagesProps {
@@ -15,6 +15,7 @@ const ChatMessages = ({
   loading
 }: ChatMessagesProps) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const id = useId()
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -41,8 +42,8 @@ const ChatMessages = ({
     >
       <Box sx={{ flex: 1 }}>
         {loading
-          ? Array.from({ length: 5 }).map((_, index) => (
-              <Box key={index} sx={{ display: 'flex', mb: 2 }}>
+          ? Array.from({ length: 5 }).map(() => (
+              <Box key={id} sx={{ display: 'flex', mb: 2 }}>
                 <Skeleton variant="circular" width={40} height={40} />
                 <Box sx={{ ml: 2, flex: 1 }}>
                   <Skeleton width="60%" />

@@ -1,7 +1,7 @@
 import { Container } from '@mui/material'
 import ChattingSideBar from './components/SideBar'
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react'
-import { ConversationType, Message, MessageResponse } from './type'
+import { ConversationType, Message, MessageRequest } from './type'
 import useSWR from 'swr'
 import { AppPath } from '@/services/utils'
 import useDebounce from '@/hooks/useDebounce'
@@ -83,18 +83,19 @@ const ChattingPage = () => {
             client.subscribe(
               `/topic/conversation/${selectedConversation.conversationId}`,
               (message) => {
-                const data: MessageResponse = JSON.parse(message.body)
+                const data: Message = JSON.parse(message.body)
 
+                console.log('Received message:', data)
                 if (data.senderId !== user.id) {
                   setMessages((prevMessages) => [
                     ...prevMessages,
                     {
                       senderId: data.senderId,
                       senderName: data.senderName,
-                      messageText: data.content,
+                      messageText: data.messageText,
                       sentAt: data.sentAt,
-                      status: 'received',
-                      timestamp: data.sentAt
+                      timestamp: data.sentAt,
+                      recipientId: data.recipientId
                     }
                   ])
                 }
@@ -139,13 +140,11 @@ const ChattingPage = () => {
         return
       }
 
-      const newMessage: Message = {
+      const newMessage: MessageRequest = {
         senderId: user.id,
-        senderName: selectedConversation.senderName ?? 'Anonymous',
-        senderAvatar: selectedConversation.senderAvatar,
-        messageText,
-        sentAt: new Date().toISOString(),
-        timestamp: new Date().toISOString()
+        messageText: messageText,
+        conversationId: selectedConversation.conversationId,
+        recipientId: selectedConversation.recipientId
       }
 
       // Send the message via WebSocket
@@ -153,17 +152,23 @@ const ChattingPage = () => {
         `/app/chat.sendMessage/${selectedConversation.conversationId}`,
         {},
         JSON.stringify({
-          ...newMessage,
-          content: newMessage.messageText
+          ...newMessage
         })
       )
-      console.log('Sent message:', newMessage)
       // Update the UI with the new message
-      setMessages((prevMessages) => [...prevMessages, newMessage])
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          senderId: user.id,
+          senderName: user.name,
+          messageText: messageText,
+          sentAt: new Date().toISOString()
+        }
+      ])
     },
-    [selectedConversation]
+    [selectedConversation, user.id, user.name]
   )
-  console.log(selectedConversation)
+
   return (
     <Container
       disableGutters
