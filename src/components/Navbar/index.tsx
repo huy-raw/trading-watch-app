@@ -24,6 +24,8 @@ import { stringAvatar } from '@/common/utils'
 import useSWR from 'swr'
 import { AppPath } from '@/services/utils'
 import { User } from '@/pages/item/ManageBuyOrder/type'
+import NotificationModal from '../Notifications'
+import { INotification } from '../Notifications/type'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -71,6 +73,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 const Navbar = () => {
+  const [openNotification, setOpenNotification] = useState(false)
+  const [notificationAnchorEl, setNotificationAnchorEl] =
+    useState<null | HTMLElement>(null)
   const navigate = useNavigate()
   const [userState, setUserState] = useState<User>()
   const user = localStorage.getItem('user')
@@ -78,6 +83,7 @@ const Navbar = () => {
     : null
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [listNotification, setListNotification] = useState<INotification[]>([])
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -85,6 +91,11 @@ const Navbar = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
+    setNotificationAnchorEl(event.currentTarget)
+    setOpenNotification((prev) => !prev)
   }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +106,19 @@ const Navbar = () => {
     event.preventDefault()
     navigate(`/item/product?keyword=${searchQuery}`)
   }
-  const { data: userInfo, isLoading } = useSWR(AppPath.USER_INFO(user?.id))
+  const { data: userInfo, isLoading } = useSWR(
+    user && AppPath.USER_INFO(user?.id)
+  )
+  const { data: notify, isLoading: notifyLoading } = useSWR(
+    user && AppPath.GET_NOTIFICATION(user?.id),
+    {
+      onSuccess: (data) => {
+        setListNotification(data)
+      }
+    }
+  )
+
+  console.log('notify', notify)
 
   useEffect(() => {
     if (userInfo) {
@@ -162,9 +185,15 @@ const Navbar = () => {
           </Search>
         </Box>
         <Box>
-          <Button color="inherit">
+          <Button color="inherit" onClick={handleNotificationClick}>
             <NotificationsNoneOutlinedIcon fontSize="large" />
           </Button>
+          <NotificationModal
+            open={openNotification}
+            anchorEl={notificationAnchorEl}
+            handleClose={() => setOpenNotification(false)}
+            notifications={listNotification}
+          />
           <Button color="inherit" href="/user/conversation">
             <QuestionAnswerIcon fontSize="large" />
           </Button>

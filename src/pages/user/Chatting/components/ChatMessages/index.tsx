@@ -47,7 +47,6 @@ const ChatMessages = ({
         borderBottom: '1px solid #f0f0f0',
         overflowY: 'scroll',
         padding: 2,
-
         display: 'flex',
         flexDirection: 'column'
       }}
