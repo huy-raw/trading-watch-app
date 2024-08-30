@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Box,
   Popper,
@@ -8,20 +7,30 @@ import {
 } from '@mui/material'
 import NotificationItem from './components/NotificationItem'
 import { INotification } from './type'
+import { useEffect } from 'react'
 
 interface NotificationModalProps {
   open: boolean
   anchorEl: HTMLElement | null
   handleClose: () => void
   notifications: INotification[]
+  setNewNotification: (value: boolean) => void
 }
 
 const NotificationModal = ({
   open,
   anchorEl,
   handleClose,
-  notifications
+  notifications,
+  setNewNotification // Get the state setter
 }: NotificationModalProps) => {
+  // Reset newNotification when the modal is opened
+  useEffect(() => {
+    if (open) {
+      setNewNotification(false)
+    }
+  }, [open, setNewNotification])
+
   return (
     <Popper
       open={open}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AppBar,
   Avatar,
@@ -7,7 +7,8 @@ import {
   InputBase,
   Toolbar,
   Typography,
-  Skeleton
+  Skeleton,
+  Badge
 } from '@mui/material'
 import Logo from '@/assets/app-logo.png'
 import SearchIcon from '@mui/icons-material/Search'
@@ -26,6 +27,8 @@ import { AppPath } from '@/services/utils'
 import { User } from '@/pages/item/ManageBuyOrder/type'
 import NotificationModal from '../Notifications'
 import { INotification } from '../Notifications/type'
+import { CompatClient, Message, Stomp } from '@stomp/stompjs'
+import SockJS from 'sockjs-client/dist/sockjs.js'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -78,12 +81,16 @@ const Navbar = () => {
     useState<null | HTMLElement>(null)
   const navigate = useNavigate()
   const [userState, setUserState] = useState<User>()
-  const user = localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user') as string)
-    : null
+  const token = useMemo(() => localStorage.getItem('token'), [])
+  const user = useMemo(() => {
+    return localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user') as string)
+      : null
+  }, [])
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [listNotification, setListNotification] = useState<INotification[]>([])
+  const [newNotification, setNewNotification] = useState<boolean>(false)
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -118,8 +125,6 @@ const Navbar = () => {
     }
   )
 
-  console.log('notify', notify)
-
   useEffect(() => {
     if (userInfo) {
       setUserState(userInfo)
@@ -127,6 +132,71 @@ const Navbar = () => {
   }, [userInfo])
 
   const hasAuth = user
+
+  const clientRef = useRef<CompatClient | null>(null)
+  const reconnectAttemptsRef = useRef<number>(0)
+  const maxReconnectAttempts = 5
+  const reconnectDelay = useRef(5000) // 5 seconds delay between reconnection attempts
+
+  const handleReconnect = useCallback(() => {
+    if (reconnectAttemptsRef.current < maxReconnectAttempts) {
+      setTimeout(() => {
+        reconnectAttemptsRef.current += 1
+        console.log(
+          `Attempting to reconnect... (${reconnectAttemptsRef.current})`
+        )
+        connectSocket() // Try to reconnect
+      }, reconnectDelay.current)
+      reconnectDelay.current *= 2 // Exponential backoff
+    } else {
+      console.error(
+        'Max reconnect attempts reached. Could not reconnect to WebSocket.'
+      )
+    }
+  }, [])
+
+  const connectSocket = useCallback(() => {
+    if (user && token) {
+      const sock = new SockJS(`https://timepiece.onrender.com/ws`)
+      const client = Stomp.over(sock)
+      clientRef.current = client
+
+      client.connect(
+        {
+          Authorization: `Bearer ${token}`
+        },
+        () => {
+          reconnectAttemptsRef.current = 0 // Reset reconnect attempts on successful connection
+
+          client.subscribe(`/topic/notifications/${user.id}`, (message) => {
+            const data: INotification = JSON.parse(message.body)
+
+            console.log('Received message:', data)
+
+            // Update notifications and set flag to indicate new notification
+            setListNotification((prev) => [data, ...prev])
+            setNewNotification(true)
+          })
+        },
+        (error) => {
+          console.error('WebSocket connection error:', error)
+          handleReconnect() // Attempt to reconnect on error
+        }
+      )
+    }
+  }, [user, token, handleReconnect])
+
+  useEffect(() => {
+    connectSocket()
+
+    return () => {
+      if (clientRef.current && clientRef.current.connected) {
+        clientRef.current.disconnect(() => {
+          console.log('Disconnected from WebSocket')
+        })
+      }
+    }
+  }, [connectSocket])
 
   return (
     <AppBar
@@ -185,14 +255,22 @@ const Navbar = () => {
           </Search>
         </Box>
         <Box>
-          <Button color="inherit" onClick={handleNotificationClick}>
-            <NotificationsNoneOutlinedIcon fontSize="large" />
-          </Button>
+          <Badge
+            color="error"
+            variant="dot"
+            invisible={!newNotification}
+            overlap="circular"
+          >
+            <Button color="inherit" onClick={handleNotificationClick}>
+              <NotificationsNoneOutlinedIcon fontSize="large" />
+            </Button>
+          </Badge>
           <NotificationModal
             open={openNotification}
             anchorEl={notificationAnchorEl}
             handleClose={() => setOpenNotification(false)}
             notifications={listNotification}
+            setNewNotification={setNewNotification}
           />
           <Button color="inherit" href="/user/conversation">
             <QuestionAnswerIcon fontSize="large" />
