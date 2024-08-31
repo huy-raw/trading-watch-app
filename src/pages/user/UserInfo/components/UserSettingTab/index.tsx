@@ -11,8 +11,14 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import { changePasswordService } from '@/services/userService'
+import { toast } from 'react-toastify'
 
-const SettingTab = () => {
+interface SettingTabProps {
+  userId: number
+}
+
+const SettingTab = (props: SettingTabProps) => {
   const [showPassword, setShowPassword] = useState({
     currentPassword: false,
     newPassword: false,
@@ -37,8 +43,17 @@ const SettingTab = () => {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log('Form data:', values)
+    onSubmit: async (values) => {
+      const data = await changePasswordService({
+        userId: props.userId,
+        newPassword: values.newPassword,
+        oldPassword: values.currentPassword,
+        confirmNewPassword: values.confirmNewPassword
+      })
+
+      if (data) {
+        toast.success('Đổi mật khẩu thành công')
+      }
     }
   })
 

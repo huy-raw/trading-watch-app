@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -6,27 +6,69 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/material'
 import { useFormik } from 'formik'
+import { User } from '@/pages/item/ManageBuyOrder/type'
+import useSWR from 'swr'
+import { AppPath } from '@/services/utils'
 
-const UserInfoTab = () => {
-  const [initialValues] = useState({
-    fullName: 'Nguyễn Việt Thắng',
-    address: 'Số 17 đường 23 Phường 4 Quận 7',
-    phone: '0987654321',
-    email: 'email@gmail.com',
-    idNumber: '0987654321',
-    gender: 'Nam',
+interface UserInfoTabProps {
+  userId: number
+}
+
+const UserInfoTab = (props: UserInfoTabProps) => {
+  const [initialValues, setInitialValues] = useState({
+    fullName: '',
+    address: '',
+    phone: '',
+    email: '',
+    idNumber: '',
+    gender: '',
     birthDate: '2000-01-01'
   })
 
+  const { data: user, isLoading } = useSWR<User>(
+    AppPath.USER_INFO(props.userId),
+    {
+      onSuccess: (data) => {
+        // Update initial values when user data is successfully loaded
+        setInitialValues({
+          fullName: data.name || '',
+          address: data.address || '',
+          phone: data.phoneNumber || '',
+          email: '', // Assuming the email is not part of the user data; adjust as needed
+          idNumber: data.citizenID || '',
+          gender: data.gender || 'Nam',
+          birthDate: data.birthday || '2000-01-01'
+        })
+      }
+    }
+  )
+
   const formik = useFormik({
     initialValues: initialValues,
+    enableReinitialize: true, // Allow Formik to reinitialize when initialValues change
     onSubmit: (values) => {
       console.log('Form data:', values)
     }
   })
+
+  // Effect to update form values once the user data is loaded
+  useEffect(() => {
+    if (user) {
+      formik.setValues({
+        fullName: user.name || '',
+        address: user.address || '',
+        phone: user.phoneNumber || '',
+        email: '', // Assuming the email is not part of the user data; adjust as needed
+        idNumber: user.citizenID || '',
+        gender: user.gender || 'Nam',
+        birthDate: user.birthday || '2000-01-01'
+      })
+    }
+  }, [user, formik.setValues])
 
   const isFormChanged =
     JSON.stringify(formik.values) !== JSON.stringify(initialValues)
@@ -61,32 +103,41 @@ const UserInfoTab = () => {
           Hồ sơ cá nhân
         </Typography>
       </Box>
-      <Box>
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Họ & tên"
-          name="fullName"
-          value={formik.values.fullName}
-          onChange={formik.handleChange}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Địa chỉ"
-          name="address"
-          value={formik.values.address}
-          onChange={formik.handleChange}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Số điện thoại"
-          name="phone"
-          value={formik.values.phone}
-          onChange={formik.handleChange}
-        />
-      </Box>
+      {isLoading ? (
+        // Apply skeletons while loading
+        <Box>
+          <Skeleton variant="text" width="100%" height={40} />
+          <Skeleton variant="text" width="100%" height={40} />
+          <Skeleton variant="text" width="100%" height={40} />
+        </Box>
+      ) : (
+        <Box>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Họ & tên"
+            name="fullName"
+            value={formik.values.fullName}
+            onChange={formik.handleChange}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Địa chỉ"
+            name="address"
+            value={formik.values.address}
+            onChange={formik.handleChange}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Số điện thoại"
+            name="phone"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+          />
+        </Box>
+      )}
       <Box
         sx={{
           textAlign: 'left',
@@ -115,48 +166,57 @@ const UserInfoTab = () => {
           Chỉ bạn mới có thể thấy và chỉnh sửa những thông tin này.
         </Typography>
       </Box>
-      <Box>
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Email"
-          name="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          disabled
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          label="CMND/CCCD/Hộ chiếu"
-          name="idNumber"
-          value={formik.values.idNumber}
-          onChange={formik.handleChange}
-        />
-        <RadioGroup
-          name="gender"
-          value={formik.values.gender}
-          onChange={formik.handleChange}
-          row
-          sx={{ mt: 2 }}
-        >
-          <FormControlLabel value="Nam" control={<Radio />} label="Nam" />
-          <FormControlLabel value="Nữ" control={<Radio />} label="Nữ" />
-          <FormControlLabel value="Khác" control={<Radio />} label="Khác" />
-        </RadioGroup>
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Ngày Sinh"
-          name="birthDate"
-          type="date"
-          value={formik.values.birthDate}
-          onChange={formik.handleChange}
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-      </Box>
+      {isLoading ? (
+        // Apply skeletons while loading
+        <Box>
+          <Skeleton variant="text" width="100%" height={40} />
+          <Skeleton variant="text" width="100%" height={40} />
+          <Skeleton variant="rectangular" width="100%" height={56} />
+        </Box>
+      ) : (
+        <Box>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Email"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            disabled
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="CMND/CCCD/Hộ chiếu"
+            name="idNumber"
+            value={formik.values.idNumber}
+            onChange={formik.handleChange}
+          />
+          <RadioGroup
+            name="gender"
+            value={formik.values.gender}
+            onChange={formik.handleChange}
+            row
+            sx={{ mt: 2 }}
+          >
+            <FormControlLabel value="Nam" control={<Radio />} label="Nam" />
+            <FormControlLabel value="Nữ" control={<Radio />} label="Nữ" />
+            <FormControlLabel value="Khác" control={<Radio />} label="Khác" />
+          </RadioGroup>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Ngày Sinh"
+            name="birthDate"
+            type="date"
+            value={formik.values.birthDate}
+            onChange={formik.handleChange}
+            InputLabelProps={{
+              shrink: true
+            }}
+          />
+        </Box>
+      )}
       <Button
         type="submit"
         variant="contained"
