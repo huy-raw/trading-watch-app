@@ -7,18 +7,22 @@ import {
   FormControlLabel,
   Radio,
   Typography,
-  Skeleton
+  Skeleton,
+  CircularProgress
 } from '@mui/material'
 import { useFormik } from 'formik'
 import { User } from '@/pages/item/ManageBuyOrder/type'
 import useSWR from 'swr'
 import { AppPath } from '@/services/utils'
+import { updateUserProFileService } from '@/services/userService'
+import { toast } from 'react-toastify'
 
 interface UserInfoTabProps {
   userId: number
 }
 
 const UserInfoTab = (props: UserInfoTabProps) => {
+  const [loading, setLoading] = useState(false)
   const [initialValues, setInitialValues] = useState({
     fullName: '',
     address: '',
@@ -50,8 +54,28 @@ const UserInfoTab = (props: UserInfoTabProps) => {
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true, // Allow Formik to reinitialize when initialValues change
-    onSubmit: (values) => {
-      console.log('Form data:', values)
+    onSubmit: async (values) => {
+      setLoading(true)
+      try {
+        await updateUserProFileService(
+          {
+            name: values.fullName,
+            address: values.address,
+            phoneNumber: values.phone,
+            gender: values.gender,
+            birthday: values.birthDate,
+            citizenID: values.idNumber
+          },
+          props.userId
+        )
+
+        toast.success('Cập nhật thông tin cá nhân thành công')
+        setLoading(false)
+      } catch (error) {
+        console.error(error)
+        toast.error('Có lỗi xảy ra khi cập nhật thông tin cá nhân')
+        setLoading(false)
+      }
     }
   })
 
@@ -221,7 +245,8 @@ const UserInfoTab = (props: UserInfoTabProps) => {
         type="submit"
         variant="contained"
         color="primary"
-        disabled={!isFormChanged}
+        disabled={!isFormChanged || !formik.isValid || loading}
+        startIcon={isLoading && <CircularProgress size={20} color="inherit" />}
         sx={{ mt: 3 }}
       >
         Lưu

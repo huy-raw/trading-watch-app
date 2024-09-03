@@ -5,7 +5,8 @@ import {
   TextField,
   Typography,
   IconButton,
-  InputAdornment
+  InputAdornment,
+  CircularProgress
 } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -19,19 +20,24 @@ interface SettingTabProps {
 }
 
 const SettingTab = (props: SettingTabProps) => {
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState({
     currentPassword: false,
     newPassword: false,
     confirmNewPassword: false
   })
 
-  const initialValues = {
-    currentPassword: '',
-    newPassword: '',
-    confirmNewPassword: ''
-  }
+  const initialValues = React.useMemo(
+    () => ({
+      currentPassword: '',
+      newPassword: '',
+      confirmNewPassword: ''
+    }),
+    []
+  )
 
   const validationSchema = Yup.object({
+    currentPassword: Yup.string().required('Mật khẩu hiện tại là bắt buộc'),
     newPassword: Yup.string()
       .required('Mật khẩu mới là bắt buộc')
       .min(6, 'Mật khẩu mới phải có ít nhất 6 ký tự'),
@@ -44,15 +50,23 @@ const SettingTab = (props: SettingTabProps) => {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const data = await changePasswordService({
-        userId: props.userId,
-        newPassword: values.newPassword,
-        oldPassword: values.currentPassword,
-        confirmNewPassword: values.confirmNewPassword
-      })
+      setLoading(true)
+      try {
+        const data = await changePasswordService({
+          userId: props.userId,
+          newPassword: values.newPassword,
+          oldPassword: values.currentPassword,
+          confirmNewPassword: values.confirmNewPassword
+        })
 
-      if (data) {
-        toast.success('Đổi mật khẩu thành công')
+        if (data) {
+          toast.success('Đổi mật khẩu thành công')
+          formik.resetForm() // Reset form after successful submission
+        }
+      } catch (error) {
+        toast.error('Đổi mật khẩu thất bại')
+      } finally {
+        setLoading(false)
       }
     }
   })
@@ -65,7 +79,7 @@ const SettingTab = (props: SettingTabProps) => {
     )
   }, [formik.values, initialValues])
 
-  const handleClickShowPassword = (field) => {
+  const handleClickShowPassword = (field: keyof typeof showPassword) => {
     setShowPassword({
       ...showPassword,
       [field]: !showPassword[field]
@@ -130,6 +144,13 @@ const SettingTab = (props: SettingTabProps) => {
           type={showPassword.currentPassword ? 'text' : 'password'}
           value={formik.values.currentPassword}
           onChange={formik.handleChange}
+          error={
+            formik.touched.currentPassword &&
+            Boolean(formik.errors.currentPassword)
+          }
+          helperText={
+            formik.touched.currentPassword && formik.errors.currentPassword
+          }
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -183,6 +204,7 @@ const SettingTab = (props: SettingTabProps) => {
             error={
               formik.touched.newPassword && Boolean(formik.errors.newPassword)
             }
+            helperText={formik.touched.newPassword && formik.errors.newPassword}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -200,11 +222,6 @@ const SettingTab = (props: SettingTabProps) => {
               )
             }}
           />
-          {formik.touched.newPassword && formik.errors.newPassword && (
-            <Typography variant="body2" color="error">
-              {formik.errors.newPassword}
-            </Typography>
-          )}
         </Box>
       </Box>
       <Box
@@ -243,6 +260,10 @@ const SettingTab = (props: SettingTabProps) => {
               formik.touched.confirmNewPassword &&
               Boolean(formik.errors.confirmNewPassword)
             }
+            helperText={
+              formik.touched.confirmNewPassword &&
+              formik.errors.confirmNewPassword
+            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -262,12 +283,6 @@ const SettingTab = (props: SettingTabProps) => {
               )
             }}
           />
-          {formik.touched.confirmNewPassword &&
-            formik.errors.confirmNewPassword && (
-              <Typography variant="body2" color="error">
-                {formik.errors.confirmNewPassword}
-              </Typography>
-            )}
         </Box>
       </Box>
 
@@ -276,7 +291,8 @@ const SettingTab = (props: SettingTabProps) => {
         variant="contained"
         color="primary"
         sx={{ mt: 3, width: 'fit-content' }}
-        disabled={!isFormChanged || !formik.isValid}
+        disabled={!isFormChanged || !formik.isValid || loading}
+        startIcon={loading && <CircularProgress size={20} color="inherit" />}
       >
         Đổi mật khẩu
       </Button>

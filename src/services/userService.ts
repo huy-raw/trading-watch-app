@@ -1,14 +1,12 @@
 import axiosClient from '@/configs/axiosClient'
 
 interface UpdateUserProFile {
-  name?: string
-  address?: string
-  avatar?: string
-  phoneNumber?: string
-  status?: string
-  gender?: string
-  birthday?: string
-  citizenID?: string
+  name: string
+  address: string
+  phoneNumber: string
+  gender: string
+  birthday: string
+  citizenID: string
 }
 
 export const updateUserProFileService = async (
