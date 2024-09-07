@@ -61,7 +61,8 @@ export const AppPath = {
   GET_CONVERSATION: (id) => `/api/conversations/user/${id}`,
   GET_MESSAGES: (id) => `/api/messages/${id}/messages`,
   START_CONVERSATION: '/api/conversations/start',
-  PAYMENT_VNPAY: (orderID) => `/payment/vn-pay?orderId=${orderID}`,
+  PAYMENT_VNPAY: (orderID, mode) =>
+    `/payment/vn-pay?orderId=${orderID}&isLocal=${mode}`,
   GET_RENEWAL_PACKAGE: '/api/renewal-packages/GetAllRenewalPakage',
   GET_NOTIFICATION: (id) => `/notifications/user/${id}`,
   GET_WATCHES_MODEL: '/model'

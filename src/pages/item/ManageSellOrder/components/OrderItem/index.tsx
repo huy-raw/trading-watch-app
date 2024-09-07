@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react'
+import React, { FC, useState } from 'react'
 import {
   Box,
   Typography,
@@ -220,18 +220,19 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                       </StyledButton>
                     </Box>
                   )}
-                  {item.status === OrderStatus.DIRECT_PAYMENT && (
-                    <StyledButton
-                      variant="contained"
-                      color="success"
-                      onClick={() =>
-                        setOpenDialog({ type: 'complete', orderId: item.id })
-                      }
-                      disabled={submitting}
-                    >
-                      Đã nhận đuợc tiền
-                    </StyledButton>
-                  )}
+                  {item.status === OrderStatus.DIRECT_PAYMENT ||
+                    (item.status === OrderStatus.PAYMENT_SUCCESS && (
+                      <StyledButton
+                        variant="contained"
+                        color="success"
+                        onClick={() =>
+                          setOpenDialog({ type: 'complete', orderId: item.id })
+                        }
+                        disabled={submitting}
+                      >
+                        Đã nhận đuợc tiền
+                      </StyledButton>
+                    ))}
                 </Box>
               </Card>
             </Grid>

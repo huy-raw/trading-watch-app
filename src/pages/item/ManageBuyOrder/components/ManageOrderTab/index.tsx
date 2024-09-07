@@ -13,6 +13,8 @@ import OrderItem from '../OrderItem'
 import useSWR from 'swr'
 import { AppPath } from '@/services/utils'
 import { Order } from '../../type'
+import { useSearchParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   fontWeight: 'bold',
@@ -54,6 +56,12 @@ const ManageOrderTab = () => {
   const [value, setValue] = useState(0)
   const [orders, setOrders] = useState<Order[]>([])
 
+  // Initialize the useSearchParams hook
+  const [searchParams] = useSearchParams()
+
+  // Get the paymentStatus query parameter
+  const paymentStatus = searchParams.get('paymentStatus')
+
   const user = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user') as string)
     : null
@@ -71,6 +79,15 @@ const ManageOrderTab = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  useEffect(() => {
+    if (paymentStatus === 'success') {
+      toast.success('Thanh toán thành công')
+    } else {
+      toast.error('Thanh toán thất bại')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div

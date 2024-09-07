@@ -26,7 +26,7 @@ interface OrderProps {
   userId: number
 }
 
-const displayOrderStatus = (status: OrderStatus) => {
+export const displayOrderStatus = (status: OrderStatus) => {
   switch (status) {
     case OrderStatus.WAIT:
       return 'Đợi duyệt'
@@ -226,30 +226,6 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                     >
                       Tiến hành thanh toán
                     </StyledButton>
-                  )}
-                  {item.status === OrderStatus.WAIT && (
-                    <Box>
-                      <StyledButton
-                        variant="outlined"
-                        color="error"
-                        onClick={() =>
-                          setDialogState({ type: 'cancel', orderId: item.id })
-                        }
-                        disabled={submitting}
-                      >
-                        Từ chối
-                      </StyledButton>
-                      <StyledButton
-                        variant="contained"
-                        color="success"
-                        onClick={() =>
-                          setDialogState({ type: 'approve', orderId: item.id })
-                        }
-                        disabled={submitting}
-                      >
-                        Duyệt
-                      </StyledButton>
-                    </Box>
                   )}
                 </Box>
               </Card>
