@@ -172,6 +172,13 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                         color="textSecondary"
                         component="div"
                       >
+                        {item.buyer.name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="div"
+                      >
                         {item.seller.address}
                       </Typography>
                     </Box>
