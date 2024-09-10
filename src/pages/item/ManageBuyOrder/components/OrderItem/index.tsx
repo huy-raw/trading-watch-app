@@ -13,7 +13,7 @@ import {
 import { styled } from '@mui/material/styles'
 import ConfirmDialog from '@/components/ConfirmDiaglog'
 import { useNavigate } from 'react-router-dom'
-import { updateOrder } from '@/services/orderService'
+import { completeOrder, updateOrder } from '@/services/orderService'
 import { toast } from 'react-toastify'
 import { OrderStatus } from '@/common/type'
 import { Order } from '../../type'
@@ -40,6 +40,8 @@ export const displayOrderStatus = (status: OrderStatus) => {
       return 'Thanh toán thành công'
     case OrderStatus.COMPLETE:
       return 'Hoàn thành'
+    case OrderStatus.DELIVERED:
+      return 'Đã giao hàng'
     default:
       return ''
   }
@@ -47,7 +49,8 @@ export const displayOrderStatus = (status: OrderStatus) => {
 
 const StyledButton = styled(Button)(({ theme }) => ({
   marginLeft: theme.spacing(1),
-  minWidth: '80px'
+  minWidth: '80px',
+  textTransform: 'none'
 }))
 
 const ITEMS_PER_PAGE = 4
@@ -55,7 +58,7 @@ const ITEMS_PER_PAGE = 4
 const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
   const navigate = useNavigate()
   const [dialogState, setDialogState] = useState<{
-    type: 'approve' | 'cancel' | ''
+    type: 'approve' | 'cancel' | '' | 'complete'
     orderId: number | null
   }>({ type: '', orderId: null })
 
@@ -77,12 +80,12 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
   const handleOrderAction = async (orderId: number, status: OrderStatus) => {
     setSubmitting(true)
     try {
-      await updateOrder(orderId, status)
-      toast.success(
-        status === OrderStatus.CANCELED
-          ? 'Huỷ đơn thành công'
-          : 'Duyệt đơn thành công'
-      )
+      if (status === OrderStatus.DELIVERED) {
+        await completeOrder(orderId)
+      } else {
+        await updateOrder(orderId, status)
+      }
+
       setDialogState({ type: '', orderId: null })
       mutate(AppPath.GET_BUYER_ORDERS(userId))
     } catch (error) {
@@ -170,14 +173,11 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                     sx={{
                       flex: '1 0 auto',
                       padding: '0 !important',
-                      textAlign: 'left'
+                      textAlign: 'left',
+                      width: 'fit-content'
                     }}
                   >
-                    <Typography
-                      component="div"
-                      variant="h6"
-                      sx={{ fontWeight: 'bold' }}
-                    >
+                    <Typography component="div" sx={{ fontWeight: 'bold' }}>
                       {item.watch.name}
                     </Typography>
                     <Typography
@@ -189,6 +189,13 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                         style: 'currency',
                         currency: 'VND'
                       })}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="div"
+                    >
+                      {item.seller.name}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -212,8 +219,9 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                     color="textSecondary"
                     sx={{
                       fontWeight: 'bold',
-                      fontSize: '16px',
-                      textAlign: 'right'
+                      fontSize: '14px',
+                      textAlign: 'right',
+                      marginBottom: 1
                     }}
                   >
                     {displayOrderStatus(item.status as OrderStatus)}
@@ -225,6 +233,20 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                       onClick={() => navigate(`/item/${item.id}/payment`)}
                     >
                       Tiến hành thanh toán
+                    </StyledButton>
+                  )}
+                  {item.status === OrderStatus.DELIVERED && (
+                    <StyledButton
+                      variant="contained"
+                      color="success"
+                      onClick={() =>
+                        setDialogState({
+                          type: 'complete',
+                          orderId: item.id
+                        })
+                      }
+                    >
+                      Đã nhận hàng
                     </StyledButton>
                   )}
                 </Box>
@@ -242,13 +264,13 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
         />
       </Box>
       <ConfirmDialog
-        open={dialogState.type === 'approve'}
+        open={dialogState.type === 'complete'}
         onClose={() => setDialogState({ type: '', orderId: null })}
         onConfirm={() =>
-          handleOrderAction(dialogState.orderId!, OrderStatus.APPROVED)
+          handleOrderAction(dialogState.orderId!, OrderStatus.DELIVERED)
         }
-        title="Xác nhận duyệt đơn"
-        description="Bạn có chắc chắn muốn duyệt đơn mua này?"
+        title="Xác nhận đã nhận hàng"
+        description="Bạn có chắc chắn đã nhận hàng?"
         isLoading={submitting}
       />
       <ConfirmDialog

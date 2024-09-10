@@ -83,7 +83,7 @@ const ManageOrderTab = () => {
   useEffect(() => {
     if (paymentStatus === 'success') {
       toast.success('Thanh toán thành công')
-    } else {
+    } else if (paymentStatus === 'failed') {
       toast.error('Thanh toán thất bại')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

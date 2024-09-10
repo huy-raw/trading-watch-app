@@ -28,7 +28,8 @@ interface OrderProps {
 
 const StyledButton = styled(Button)(({ theme }) => ({
   marginLeft: theme.spacing(1),
-  minWidth: '70px'
+  minWidth: '70px',
+  textTransform: 'none'
 }))
 
 const ITEMS_PER_PAGE = 4
@@ -132,7 +133,7 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
               >
                 <CardMedia
                   component="img"
-                  sx={{ width: 100, height: 100, borderRadius: 1 }}
+                  sx={{ width: 100, height: 100, borderRadius: 1, ml: 2 }}
                   image={item.watch.imageUrl}
                   alt={item.watch.name}
                 />
@@ -146,37 +147,37 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                 >
                   <CardContent
                     sx={{
-                      flex: '1 0 auto',
-                      padding: '0 !important',
-                      textAlign: 'left'
+                      display: 'flex',
+                      textAlign: 'left',
+                      flexDirection: 'row',
+                      width: 'fit-content'
                     }}
                   >
-                    <Typography
-                      component="div"
-                      variant="h6"
-                      sx={{ fontWeight: 'bold' }}
-                    >
-                      {item.watch.name}
-                    </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      component="div"
-                      sx={{ fontWeight: 'bold', color: 'red' }}
-                    >
-                      {item.totalPrice.toLocaleString('vi-VN', {
-                        style: 'currency',
-                        currency: 'VND'
-                      })}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="div"
-                    >
-                      {item.seller.address}
-                    </Typography>
+                    <Box>
+                      <Typography component="div" sx={{ fontWeight: 'bold' }}>
+                        {item.watch.name}
+                      </Typography>
+                      <Typography
+                        variant="subtitle1"
+                        component="div"
+                        sx={{ fontWeight: 'bold', color: 'red' }}
+                      >
+                        {item.totalPrice.toLocaleString('vi-VN', {
+                          style: 'currency',
+                          currency: 'VND'
+                        })}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="div"
+                      >
+                        {item.seller.address}
+                      </Typography>
+                    </Box>
                   </CardContent>
                 </Box>
+
                 <Box
                   sx={{
                     display: 'flex',
@@ -190,8 +191,9 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                     color="textSecondary"
                     sx={{
                       fontWeight: 'bold',
-                      fontSize: '16px',
-                      textAlign: 'right'
+                      fontSize: '14px',
+                      textAlign: 'right',
+                      marginBottom: 1
                     }}
                   >
                     {displayOrderStatus(item.status as OrderStatus)}
@@ -226,11 +228,11 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                         variant="contained"
                         color="success"
                         onClick={() =>
-                          setOpenDialog({ type: 'complete', orderId: item.id })
+                          setOpenDialog({ type: 'delivered', orderId: item.id })
                         }
                         disabled={submitting}
                       >
-                        Đã nhận đuợc tiền
+                        Đã giao hàng
                       </StyledButton>
                     ))}
                 </Box>
@@ -275,6 +277,16 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
         }
         title="Xác nhận hoàn thành đơn"
         description="Bạn có muốn hoàn thành đơn này?"
+        isLoading={submitting}
+      />
+      <ConfirmDialog
+        open={openDialog.type === 'delivered'}
+        onClose={() => setOpenDialog({ type: '', orderId: null })}
+        onConfirm={() =>
+          handleOrderAction(openDialog.orderId!, OrderStatus.DELIVERED)
+        }
+        title="Xác nhận gởi hàng thành công"
+        description="Bạn có muốn xác nhận gởi đơn hàng này?"
         isLoading={submitting}
       />
     </Box>

@@ -65,7 +65,8 @@ export const AppPath = {
     `/payment/vn-pay?orderId=${orderID}&isLocal=${mode}`,
   GET_RENEWAL_PACKAGE: '/api/renewal-packages/GetAllRenewalPakage',
   GET_NOTIFICATION: (id) => `/notifications/user/${id}`,
-  GET_WATCHES_MODEL: '/model'
+  GET_WATCHES_MODEL: '/model',
+  COMPLETE_ORDER: (id) => `/orders/${id}/complete`
 }
 
 export const fetcher = (url) => axiosClient.get(url).then((res) => res.data)
