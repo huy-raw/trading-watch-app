@@ -66,7 +66,9 @@ export const AppPath = {
   GET_RENEWAL_PACKAGE: '/api/renewal-packages/GetAllRenewalPakage',
   GET_NOTIFICATION: (id) => `/notifications/user/${id}`,
   GET_WATCHES_MODEL: '/model',
-  COMPLETE_ORDER: (id) => `/orders/${id}/complete`
+  COMPLETE_ORDER: (id) => `/orders/${id}/complete`,
+  USER_BALANCE: (id) => `/api/wallet/user/${id}/balance`,
+  TRANSACTIONS: '/api/transactions'
 }
 
 export const fetcher = (url) => axiosClient.get(url).then((res) => res.data)

@@ -22,6 +22,7 @@ import ManageAppraisal from './pages/user/ManageAppraisal'
 import RatingPage from './pages/user/Rating'
 import ChattingPage from './pages/user/Chatting'
 import RenewPackagePage from './pages/item/RenewPackage'
+import WalletPage from './pages/user/Wallet'
 
 const Root = () => (
   <UserLayout>
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
               const { id } = params
               return { id }
             }
+          },
+          {
+            path: 'wallet',
+            element: <WalletPage />
           },
           {
             path: 'seller/:id/rating',
