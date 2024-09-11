@@ -12,6 +12,8 @@ export interface User {
   dateCreate: string
   gender: string
   email: string
+  ratingScore?: number | null
+  feedbacks?: number | null
 }
 
 export interface Watch {
