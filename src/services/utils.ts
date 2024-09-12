@@ -68,7 +68,8 @@ export const AppPath = {
   GET_WATCHES_MODEL: '/model',
   COMPLETE_ORDER: (id) => `/orders/${id}/complete`,
   USER_BALANCE: (id) => `/api/wallet/user/${id}/balance`,
-  TRANSACTIONS: '/api/transactions'
+  TRANSACTIONS: '/api/transactions',
+  DEPOSIT_REQUEST: (userId) => `/api/wallet/${userId}/balance`
 }
 
 export const fetcher = (url) => axiosClient.get(url).then((res) => res.data)
