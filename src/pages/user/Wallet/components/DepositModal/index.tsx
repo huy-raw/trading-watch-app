@@ -9,8 +9,8 @@ import {
   IconButton
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import useSWR from 'swr'
-import { AppPath } from '@/services/utils'
+import { deposit } from '@/services/paymentService'
+import { toast } from 'react-toastify'
 
 interface DepositModalProps {
   open: boolean
@@ -33,8 +33,20 @@ const DepositModal: React.FC<DepositModalProps> = ({
     setAmount(event.target.value)
   }
 
-  const handleDeposit = () => {
-    // Handle deposit action, e.g., trigger a service to process payment
+  const handleDeposit = async () => {
+    try {
+      const data = await deposit(amount, userId)
+      if (data) {
+        const paymentLink = data.paymentUrl
+        window.location.href = paymentLink
+        onClose()
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Nạp tiền thất bại. Vui lòng thử lại sau')
+    } finally {
+      setAmount('')
+    }
   }
 
   return (

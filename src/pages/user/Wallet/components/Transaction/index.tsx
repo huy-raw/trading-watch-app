@@ -32,7 +32,7 @@ function mappingTransactionType(type: string) {
     case 'DEPOSIT':
       return 'Nạp tiền'
     case 'ORDER_PAYMENT':
-      return 'Thans toán đơn hàng'
+      return 'Thanh toán đơn hàng'
     case 'POST_WATCH_PAYMENT':
       return 'Chuyển tiền'
     default:

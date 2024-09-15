@@ -173,7 +173,7 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                         color="textSecondary"
                         component="div"
                       >
-                        {item.buyer.name}
+                        Người mua: {item.buyer.name}
                       </Typography>
                       <Typography
                         variant="body2"

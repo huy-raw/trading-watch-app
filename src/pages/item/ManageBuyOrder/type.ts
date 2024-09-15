@@ -43,4 +43,8 @@ export interface Order {
   seller: User
   watch: Watch
   role: Role
+  buyeraddress?: string
+  paymentMethod?: string
+  rating?: number
+  reviewed?: boolean
 }

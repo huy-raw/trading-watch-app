@@ -197,7 +197,7 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                       color="textSecondary"
                       component="div"
                     >
-                      {item.seller.name}
+                      Người bán: {item.seller.name}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -251,7 +251,7 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                       Đã nhận hàng
                     </StyledButton>
                   )}
-                  {item.status === OrderStatus.COMPLETE && (
+                  {item.status === OrderStatus.COMPLETE && !item.reviewed && (
                     <Button
                       sx={{
                         textTransform: 'none',
