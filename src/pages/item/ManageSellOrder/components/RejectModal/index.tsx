@@ -13,10 +13,12 @@ import {
 } from '@mui/material'
 import { AppPath } from '@/services/utils'
 import useSWR, { mutate } from 'swr'
+import { rejectOrder } from '@/services/orderService'
+import { toast } from 'react-toastify'
 
 interface RejectModalProps {
   userId: number
-  orderId?: number | null
+  orderId: number | null
   isOpen: boolean
   onClose: () => void
 }
@@ -48,10 +50,30 @@ const RejectModal: React.FC<RejectModalProps> = ({
 
     setIsSubmitting(true)
     try {
-      // Notify success and close modal
-      console.log(
-        `Order ${orderId} rejected by user ${userId} for reason: ${selectedReason}`
-      )
+      const reasonId = reasons?.find(
+        (reason) => reason.reason === selectedReason
+      )?.id
+      if (reasonId !== undefined && orderId !== null) {
+        await rejectOrder(reasonId, orderId)
+          .then((res) => {
+            if (res) {
+              toast.success('Đã từ chối đơn hàng', {
+                autoClose: 3000
+              })
+            }
+            mutate(AppPath.GET_SELLER_ORDERS(userId))
+            onClose()
+          })
+          .catch((error) => {
+            console.error('Failed to reject order:', error)
+            toast.error('Đã xảy ra lỗi. Vui long thử lại sau.', {
+              autoClose: 3000
+            })
+          })
+          .finally(() => {
+            setIsSubmitting(false)
+          })
+      }
       mutate(AppPath.GET_BUYER_ORDERS(userId))
       onClose()
     } catch (error) {
