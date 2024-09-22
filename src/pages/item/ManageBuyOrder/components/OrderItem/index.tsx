@@ -208,6 +208,16 @@ const OrderItem: FC<OrderProps> = ({ data, isLoading, userId }) => {
                     >
                       {item.seller.address}
                     </Typography>
+                    {item.cancelReason && (
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="div"
+                        sx={{ color: 'red', mt: 1 }}
+                      >
+                        {item.cancelReason}
+                      </Typography>
+                    )}
                   </CardContent>
                 </Box>
                 <Box
