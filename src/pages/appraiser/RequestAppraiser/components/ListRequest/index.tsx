@@ -93,7 +93,7 @@ const ListRequest: React.FC<ListRequestProps> = ({
                     {getVietnameseStatus(request?.status)}
                   </Typography>
                   <Typography variant="body2">
-                    {moment(request.updateDate).format('DD/MM/YYYY')}
+                    {moment(request.createDate).format('DD/MM/YYYY')}
                   </Typography>
                 </Grid>
               </Grid>

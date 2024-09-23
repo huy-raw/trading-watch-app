@@ -111,31 +111,42 @@ const ViewAppraisalFormPage = () => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'row',
               alignItems: 'flex-end'
             }}
           >
-            <Button
-              variant="contained"
-              color="success"
-              component="span"
-              onClick={() => {
-                if (!selectedFile) {
-                  navigate(`/appraiser/${id}/create-appraisal-paper`)
-                }
-              }}
-            >
-              {buttonText}
-            </Button>
-
             {selectedFile && (
-              <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 1 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginTop: 1
+                }}
+              >
                 <Typography variant="body2">{fileName}</Typography>
                 <IconButton size="small" onClick={handleRemoveFile}>
                   <CloseIcon />
                 </IconButton>
               </Box>
             )}
+            <Button
+              variant="contained"
+              color="success"
+              sx={{
+                marginLeft: 2,
+                backgroundColor: selectedFile ? '#4CAF50' : '#1976D2'
+              }}
+              component="span"
+              onClick={() => {
+                if (!selectedFile) {
+                  navigate(`/appraiser/${id}/create-appraisal-paper`)
+                } else if (pdfUrl) {
+                  handleOpenDialog()
+                }
+              }}
+            >
+              {buttonText}
+            </Button>
           </Box>
         </Box>
         <ConfirmDialog

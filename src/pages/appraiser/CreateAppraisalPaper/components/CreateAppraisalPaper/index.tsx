@@ -17,6 +17,9 @@ import AppraisalFormInput from '../AppraisalFormInput'
 import ConfirmDialog from '../ConfirmDialog'
 import html2canvas from 'html2canvas'
 import { useNavigate } from 'react-router-dom'
+import { AppPath } from '@/services/utils'
+import useSWR from 'swr'
+import { AppraisalType } from '@/pages/appraiser/AppraisalFormDetail'
 
 interface CreateAppraisalPaperProps {
   id: string | undefined
@@ -28,6 +31,15 @@ const CreateAppraisalPaper = ({ id }: CreateAppraisalPaperProps) => {
 
   const [open, setOpen] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([])
+  const [appraisal, setAppraisal] = useState<AppraisalType | null>(null)
+  const { data, isLoading } = useSWR(
+    `${AppPath.GET_APPRAISAL_REQUESTS_BY_ID}/${id}`,
+    {
+      onSuccess: (data) => {
+        setAppraisal(data)
+      }
+    }
+  )
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -169,7 +181,7 @@ const CreateAppraisalPaper = ({ id }: CreateAppraisalPaperProps) => {
           </Typography>
           <Divider />
           <Typography textAlign={'right'} fontSize={'24px'}>
-            Mã: 19999
+            Mã: {appraisal?.referenceCode}
           </Typography>
         </Box>
         <Grid container spacing={2} component={'div'} marginX={8} marginTop={8}>

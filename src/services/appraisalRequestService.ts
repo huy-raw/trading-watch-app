@@ -83,4 +83,44 @@ const getDetailAppraisalRequest = async (id: string) => {
   }
 }
 
-export { createAppraisalRequest, getDetailAppraisalRequest }
+interface CompleteAppraisalRequest {
+  id: string // appraisalRequestId
+}
+
+const completeAppraisalRequest = async (req: CompleteAppraisalRequest) => {
+  try {
+    console.log('completeAppraisalRequest', req)
+    // const data = await axiosClient.post(
+    //   `/api/appraisal-request/complete-request/${req.id}`,
+    //   {}
+    // )
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+interface RatingAppraisalRequest {
+  id: string
+  rating: number
+}
+
+const ratingAppraisalRequest = async (req: RatingAppraisalRequest) => {
+  try {
+    const data = await axiosClient.post(
+      `/api/appraisal-request/${req.id}/feedback?ratingScore=${req.rating}`
+    )
+
+    return data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export {
+  createAppraisalRequest,
+  getDetailAppraisalRequest,
+  completeAppraisalRequest,
+  ratingAppraisalRequest
+}
