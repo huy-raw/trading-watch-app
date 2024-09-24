@@ -19,6 +19,7 @@ import useSWR from 'swr'
 import { AppPath } from '@/services/utils'
 import { convertBooleanToYesNo } from '@/common/utils'
 import WatchImages from './components/WatchImages'
+import { completeAppraisalRequest } from '@/services/appraisalRequestService'
 
 const ViewAppraisalFormPage = () => {
   const navigate = useNavigate()
@@ -27,20 +28,14 @@ const ViewAppraisalFormPage = () => {
     `${AppPath.GET_APPRAISAL_REQUESTS_BY_ID}/${id}`
   )
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [buttonText, setButtonText] = useState('Tạo kết quả')
   const [openDialog, setOpenDialog] = useState(false)
+  const [fileName, setFileName] = useState('')
 
   const location = useLocation()
-  const { pdfUrl, fileName } = location.state || {}
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]
-    if (file) {
-      setSelectedFile(file)
-      setButtonText('Xác nhận hoàn thành')
-    }
-  }
+  const { pdfUrl } = location.state || {}
 
   const handleRemoveFile = () => {
     setSelectedFile(null)
@@ -57,10 +52,30 @@ const ViewAppraisalFormPage = () => {
 
   useEffect(() => {
     if (pdfUrl) {
+      const fileName = pdfUrl.split('/').pop() // Extract the filename from the URL
       setButtonText('Xác nhận hoàn thành')
       setSelectedFile(pdfUrl)
+      setFileName(fileName) // Set the extracted file name
     }
   }, [pdfUrl])
+
+  const handleSubmit = async () => {
+    try {
+      const data = await completeAppraisalRequest({
+        id: Number(id),
+        pdfUrl: pdfUrl
+      })
+      if (data) {
+        toast.success('Yêu cầu thẩm định đã hoàn thành', {})
+        navigate('/appraiser/dashboard')
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Có lỗi xảy ra, vui lòng thử lại sau', {})
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <AppraiserLayout>
@@ -152,11 +167,8 @@ const ViewAppraisalFormPage = () => {
         <ConfirmDialog
           open={openDialog}
           onClose={handleCloseDialog}
-          onConfirm={() => {
-            toast.success('Yêu cầu thẩm định đã hoàn thành', {})
-            setOpenDialog(false)
-            navigate('/appraiser/dashboard')
-          }}
+          isLoading={isSubmitting}
+          onConfirm={handleSubmit}
           title={'Xác nhận hoàn tất yêu cầu'}
           description={'Bạn có chắc chắn muốn hoàn yêu cầu thẩm định này ?'}
         />

@@ -56,6 +56,7 @@ const AppraisalFormDetailPage = () => {
         paddingY={4}
         marginX={'auto'}
         maxWidth={1000}
+        minWidth={800}
       >
         <Typography
           variant="h4"
