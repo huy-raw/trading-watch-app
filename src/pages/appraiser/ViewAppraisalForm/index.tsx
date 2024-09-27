@@ -20,22 +20,40 @@ import { AppPath } from '@/services/utils'
 import { convertBooleanToYesNo } from '@/common/utils'
 import WatchImages from './components/WatchImages'
 import { completeAppraisalRequest } from '@/services/appraisalRequestService'
+import { AppraisalDetail } from './type'
+import { User } from '@/pages/item/ManageBuyOrder/type'
+import { createAppraisalConversation } from '@/services/conversationService'
 
 const ViewAppraisalFormPage = () => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
   const navigate = useNavigate()
   const { id } = useParams()
-  const { data, isLoading } = useSWR(
-    `${AppPath.GET_APPRAISAL_REQUESTS_BY_ID}/${id}`
-  )
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [buttonText, setButtonText] = useState('Tạo kết quả')
   const [openDialog, setOpenDialog] = useState(false)
   const [fileName, setFileName] = useState('')
+  const [appraisal, setAppraisal] = useState<AppraisalDetail | null>(null)
+  const [appraiser, setAppraiser] = useState<User | null>(null)
 
   const location = useLocation()
   const { pdfUrl } = location.state || {}
+
+  const { data, isLoading } = useSWR(
+    `${AppPath.GET_APPRAISAL_REQUESTS_BY_ID}/${id}`,
+    {
+      onSuccess: (data) => {
+        setAppraisal(data)
+      }
+    }
+  )
+  const { isLoading: loadingAppraiser } = useSWR(AppPath.USER_INFO(user.id), {
+    onSuccess: (data) => {
+      setAppraiser(data)
+      console.log(data)
+    }
+  })
 
   const handleRemoveFile = () => {
     setSelectedFile(null)
@@ -77,6 +95,24 @@ const ViewAppraisalFormPage = () => {
     }
   }
 
+  const handleStartChat = async () => {
+    try {
+      const data = await createAppraisalConversation({
+        senderId: user.id,
+        recipientId: appraisal?.userId || 0,
+        appraisalId: Number(id)
+      })
+      if (data) {
+        navigate(`/appraiser/chat/${data?.conversationId}`)
+      } else {
+        toast.error('Có lỗi xảy ra, vui lòng thử lại sau', {})
+      }
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
   return (
     <AppraiserLayout>
       <Box
@@ -104,25 +140,32 @@ const ViewAppraisalFormPage = () => {
             sx={{ display: 'flex', alignItems: 'center', textAlign: 'left' }}
           >
             <Avatar
-              src="path_to_avatar_image.jpg"
+              src={appraiser?.avatar || undefined}
               alt="Thắng Nguyễn"
               sx={{ width: 56, height: 56, marginRight: 2 }}
             />
             <Box>
               <Typography variant="body1" fontWeight="bold">
-                Thắng Nguyễn
+                {appraiser?.name}
               </Typography>
               <Typography variant="body2" color="textSecondary">
                 Thẩm định viên
               </Typography>
             </Box>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Button
+            onClick={handleStartChat}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textTransform: 'none'
+            }}
+          >
             <ChatBubbleOutlineIcon sx={{ marginRight: 1 }} />
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body1" color="textSecondary">
               Chat với khách
             </Typography>
-          </Box>
+          </Button>
           <Box
             sx={{
               display: 'flex',

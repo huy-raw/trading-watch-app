@@ -5,24 +5,7 @@ import { useState } from 'react'
 import useSWR from 'swr'
 import HistoryTab from './components/HistoryTab'
 import Content from './components/Content'
-
-const contentData = [
-  {
-    request: 'Yêu cầu thẩm định đồng hồ ngày 01-09-2020',
-    code: '098765432',
-    brand: 'Rolex',
-    date: '01-09-2020',
-    status: 'Đã nhận'
-  },
-  {
-    request: 'Yêu cầu thẩm định đồng hồ ngày 02-09-2020',
-    code: '098765433',
-    brand: 'Omega',
-    date: '02-09-2020',
-    status: 'Đã nhận'
-  }
-  // More items...
-]
+import { HistoryAppraisalType } from './type'
 
 const HistoryAppraisal = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}')
@@ -31,16 +14,18 @@ const HistoryAppraisal = () => {
   const [status, setStatus] = useState<
     'all' | 'processing' | 'wait' | 'complete'
   >('all')
+  const [appraisals, setAppraisals] = useState<HistoryAppraisalType[]>([])
 
   const { isLoading } = useSWR(
-    AppPath.GET_APPRAISAL_REQUESTS_BY_USER({
-      userId: user.id,
+    AppPath.GET_APPRAISAL_REQUESTS_BY_APPRAISER({
+      appraiserId: user.id,
       page: page,
-      size: 100
+      size: 100,
+      status: status
     }),
     {
       onSuccess: (data) => {
-        console.log('data', data)
+        setAppraisals(data.content)
       }
     }
   )
@@ -76,10 +61,11 @@ const HistoryAppraisal = () => {
       >
         <HistoryTab status={status} setStatus={setStatus} />
         <Content
-          content={contentData}
+          content={appraisals}
           page={page}
           setPage={setPage}
           totalPages={10}
+          isLoading={isLoading}
         />
       </Box>
     </AppraiserLayout>

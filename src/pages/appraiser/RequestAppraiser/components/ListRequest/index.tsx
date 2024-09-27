@@ -64,7 +64,9 @@ const ListRequest: React.FC<ListRequestProps> = ({
                 }
               }}
               component={'div'}
-              onClick={() => navigate(`/appraiser/${request.id}`)}
+              onClick={() =>
+                navigate(`/appraiser/${request.id}/view-appraisal-form`)
+              }
             >
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={8} style={{ textAlign: 'left' }}>

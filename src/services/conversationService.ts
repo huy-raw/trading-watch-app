@@ -18,4 +18,25 @@ const startConversation = async (req: CreateConversationRequest) => {
   }
 }
 
-export { startConversation }
+interface CreateAppraisalConversation {
+  senderId: number
+  recipientId: number
+  appraisalId: number
+}
+const createAppraisalConversation = async (
+  req: CreateAppraisalConversation
+) => {
+  try {
+    const res = await axiosClient.post(
+      '/api/conversations/startRequestchat',
+      req
+    )
+
+    return res.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export { startConversation, createAppraisalConversation }

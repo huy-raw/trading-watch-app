@@ -74,7 +74,17 @@ export const AppPath = {
     `/api/wallet/vn-pay?amount=${amount}&userId=${userId}&isLocal=${isLocal}`,
   GET_CANCEL_REASON: `/api/cancel-reason/all`,
   GET_APPRAISAL_REQUESTS_BY_USER: ({ userId, page, size }) =>
-    `/api/appraisal-requests/findByUser?userId=${userId}&page=${page}&size=${size}`
+    `/api/appraisal-requests/findByUser?userId=${userId}&page=${page}&size=${size}`,
+  GET_APPRAISAL_REQUESTS_BY_APPRAISER: ({
+    appraiserId,
+    page,
+    size,
+    status
+  }) => {
+    let url = `/api/appraisal-requests/findByStatusAndAppraiser?appraiserId=${appraiserId}&page=${page}&size=${size}`
+    if (status !== 'all') url += `&status=${status}`
+    return url
+  }
 }
 
 export const fetcher = (url) => axiosClient.get(url).then((res) => res.data)

@@ -25,6 +25,7 @@ import RenewPackagePage from './pages/item/RenewPackage'
 import WalletPage from './pages/user/Wallet'
 import NotificationHandler from './components/Notify'
 import HistoryAppraisal from './pages/appraiser/HistoryAppraisal'
+import ChattingAppraisal from './pages/appraiser/ChattingAppraisal'
 
 const Root = () => (
   <UserLayout>
@@ -207,6 +208,10 @@ const router = createBrowserRouter([
           const { id, conversationId } = params
           return { id, conversationId }
         }
+      },
+      {
+        path: 'chat/:id?',
+        element: <ChattingAppraisal />
       }
     ]
   },
