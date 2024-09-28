@@ -6,9 +6,14 @@ import { stringAvatar } from '@/common/utils'
 interface ChatHeaderProps {
   conversation: ConversationType | null
   loading: boolean
+  isAppraisal?: boolean
 }
 
-const ChatHeader = ({ conversation, loading }: ChatHeaderProps) => {
+const ChatHeader = ({
+  conversation,
+  loading,
+  isAppraisal
+}: ChatHeaderProps) => {
   return (
     <Box
       sx={{
@@ -101,34 +106,38 @@ const ChatHeader = ({ conversation, loading }: ChatHeaderProps) => {
           </>
         ) : (
           <>
-            <Box>
-              <img
-                src={conversation?.watchImage}
-                width={'60px'}
-                height={'60px'}
-                alt=""
-              />
-            </Box>
-            <Box ml={2} textAlign={'left'}>
-              <Typography
-                sx={{
-                  color: '#484848',
-                  fontSize: '18px'
-                }}
-              >
-                {conversation?.watchName}
-              </Typography>
-              <Typography
-                sx={{
-                  color: '#CA2C2C',
-                  fontSize: '16px',
-                  mt: 1,
-                  fontWeight: 'bold'
-                }}
-              >
-                {conversation?.watchPrice ?? 0}đ
-              </Typography>
-            </Box>
+            {!isAppraisal && (
+              <>
+                <Box>
+                  <img
+                    src={conversation?.watchImage}
+                    width={'60px'}
+                    height={'60px'}
+                    alt=""
+                  />
+                </Box>
+                <Box ml={2} textAlign={'left'}>
+                  <Typography
+                    sx={{
+                      color: '#484848',
+                      fontSize: '18px'
+                    }}
+                  >
+                    {conversation?.watchName}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: '#CA2C2C',
+                      fontSize: '16px',
+                      mt: 1,
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {conversation?.watchPrice ?? 0}đ
+                  </Typography>
+                </Box>
+              </>
+            )}
           </>
         )}
       </Box>

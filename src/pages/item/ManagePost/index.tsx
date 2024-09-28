@@ -87,7 +87,7 @@ const ManagePostPage = () => {
         {tab === 0 && (
           <ManagerPostContent
             products={products.filter((product) => {
-              return product
+              return product.status === 'SHOW'
             })}
             isLoading={isLoaded}
             mutate={mutate}

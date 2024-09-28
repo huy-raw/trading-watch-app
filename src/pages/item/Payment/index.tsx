@@ -139,7 +139,7 @@ const PaymentPage = () => {
       </Box>
       <Box
         sx={{
-          mb: 4
+          mb: 10
         }}
       >
         <PaymentMethod

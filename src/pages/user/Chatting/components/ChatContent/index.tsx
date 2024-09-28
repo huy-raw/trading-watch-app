@@ -11,6 +11,7 @@ interface ChatContentProps {
   handleSendMessage: (messageText: string) => void
   messages: Message[]
   isLoading: boolean
+  isAppraisal?: boolean
 }
 
 const ChatContent = ({
@@ -19,7 +20,8 @@ const ChatContent = ({
   userId,
   handleSendMessage,
   messages,
-  isLoading
+  isLoading,
+  isAppraisal = false
 }: ChatContentProps) => {
   return (
     <Box
@@ -61,7 +63,11 @@ const ChatContent = ({
             height: 'calc(100vh - 24vh)'
           }}
         >
-          <ChatHeader conversation={conversation} loading={loading} />
+          <ChatHeader
+            conversation={conversation}
+            loading={loading}
+            isAppraisal={isAppraisal}
+          />
           <ChatMessages
             currentUserId={userId}
             messages={messages}

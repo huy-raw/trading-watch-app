@@ -153,7 +153,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
               </>
             ) : (
               <>
-                <Box
+                {/* <Box
                   display={'flex'}
                   justifyContent={'space-between'}
                   flexDirection={'row'}
@@ -173,8 +173,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
                       currency: 'VND'
                     })}
                   </Typography>
-                </Box>
-                <Box
+                </Box> */}
+                {/* <Box
                   display={'flex'}
                   flexDirection={'row'}
                   justifyContent={'space-between'}
@@ -194,7 +194,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
                       currency: 'VND'
                     })}
                   </Typography>
-                </Box>
+                </Box> */}
                 <Box
                   display={'flex'}
                   flexDirection={'row'}

@@ -237,6 +237,7 @@ const ChattingAppraisal = () => {
             handleSendMessage={handleSendMessage}
             messages={messages}
             isLoading={loadingMessage}
+            isAppraisal={true}
           />
         </Box>
       </Box>
