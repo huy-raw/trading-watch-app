@@ -49,7 +49,7 @@ const ProductCard: React.FC<PostCardProps> = ({
   const handleDelete = async () => {
     setIsSubmitting(true)
     try {
-      await changeStatusWatchService(postId, 'DELETED')
+      await changeStatusWatchService(postId, 'CANCEL')
       toast.success('Xoá thành công')
       mutate(AppPath.GET_WATCH_BY_USER(user.id))
     } catch (error) {
